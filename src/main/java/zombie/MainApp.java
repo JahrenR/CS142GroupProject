@@ -2,8 +2,10 @@ package zombie;
 
 public class MainApp {
     static void main(String[] args) {
-        new SimFrame();
-        //hello
-        // hi im here
+        run();
+    }
+    public static void run(){
+        Human bob = new Human(10);
+        System.out.println(bob);
     }
 }
