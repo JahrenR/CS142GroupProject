@@ -9,5 +9,9 @@ public class SimPanel extends JPanel {
     SimPanel(){
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.black);
+        run();
+    }
+    public void run(){
+        new Human();
     }
 }
