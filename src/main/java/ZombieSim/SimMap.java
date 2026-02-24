@@ -24,7 +24,7 @@ public class SimMap {
     public boolean spawn(Entity unit, int x, int y) {
         if(outBounds(x, y)) {return false;}
         if(getUnit(x, y) != null) {return false;}
-        simMap[x][y].setEntity(unit);
+        simMap[size-y][size-x].setEntity(unit);
         unit.setPosition(x, y);
         return true;
     }
