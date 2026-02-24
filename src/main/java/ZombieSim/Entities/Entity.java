@@ -13,6 +13,6 @@ public class Entity {
     public int getY() {return y;}
 
 
-    //Add Movement
+    //Add Movement with bounds
 
 }

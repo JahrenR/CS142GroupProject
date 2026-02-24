@@ -20,11 +20,7 @@ public class MapTile {
     public void setEntity(Entity tileUnit) {
         this.tileUnit = tileUnit;
     }
-    public int getX() {
-        return x;
-    }
-    public int getY() {
-        return y;
-    }
+    public int getX() {return x;}
+    public int getY() {return y;}
 
 }
