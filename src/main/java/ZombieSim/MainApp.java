@@ -8,7 +8,6 @@ public class MainApp {
         run();
     }
     private static void run(){
-        SimMap map = new SimMap(getSize());
         new SimGUI();
     }
 

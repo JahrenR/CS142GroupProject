@@ -22,17 +22,31 @@ public class SimMap {
         }
     }
 
-    public Entity getUnit(Point p) {
-        if(outBounds(p)) {return null;}
-        return tileAt(p).getEntity();
-    }
-
     public boolean spawn(Entity unit, Point p) {
         if(outBounds(p)) {return false;}
         if(getUnit(p) != null) {return false;}
         tileAt(p).setEntity(unit);
         unit.setPosition(new Point(p));
         unit.setBound(size);
+        return true;
+    }
+
+    public boolean move(Entity unit, Direction direction) {
+        Point from = unit.getLocation();
+
+        Point to = new Point(
+                from.x + direction.dx(),
+                from.y + direction.dy()
+        );
+
+        if(outBounds(to)) {return false;}
+        if(getUnit(to) != null) {return false;}
+
+        tileAt(from).setEntity(null);
+        tileAt(to).setEntity(unit);
+
+        unit.setPosition(new Point(to));
+
         return true;
     }
 
@@ -47,7 +61,18 @@ public class SimMap {
         return simMap[row][col];
     }
 
-    public int size(){return size;}
+    public Entity getUnit(Point p) {
+        if(outBounds(p)) {return null;}
+        return tileAt(p).getEntity();
+    }
+
+    public boolean isEmpty(Point p) {
+        return tileAt(p).getEntity() == null;
+    }
+
+    public int size(){
+        return size;
+    }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
