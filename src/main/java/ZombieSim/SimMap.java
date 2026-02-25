@@ -22,13 +22,12 @@ public class SimMap {
         }
     }
 
-    public boolean spawn(Entity unit, Point p) {
-        if(outBounds(p)) {return false;}
-        if(getUnit(p) != null) {return false;}
+    public void spawn(Entity unit, Point p) {
+        if(outBounds(p)) {return;}
+        if(getUnit(p) != null) {return;}
         tileAt(p).setEntity(unit);
         unit.setPosition(new Point(p));
         unit.setBound(size);
-        return true;
     }
 
     public boolean move(Entity unit, Direction direction) {
