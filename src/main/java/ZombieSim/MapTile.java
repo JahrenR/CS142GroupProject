@@ -11,7 +11,7 @@ public class MapTile {
     Entity tileUnit;
 
     MapTile(Point p) {
-        this.p = p;
+        this.p = new Point(p);
         tileUnit = null;
     }
     public Entity getEntity() {
@@ -22,6 +22,6 @@ public class MapTile {
     }
     public int getX() {return p.x;}
     public int getY() {return p.y;}
-    public Point getPoint() {return p;}
+    public Point getPoint() {return new Point(p);}
 
 }
