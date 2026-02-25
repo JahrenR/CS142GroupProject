@@ -1,17 +1,17 @@
 package ZombieSim;
 
-import ZombieSim.Entities.Entity;
+import ZombieSim.Entities.*;
+
+import java.awt.*;
 
 public class MapTile {
 
-    private final int x;
-    private final int y;
+    private final Point p;
 
     Entity tileUnit;
 
-    MapTile(int x, int y) {
-        this.x = x;
-        this.y = y;
+    MapTile(Point p) {
+        this.p = p;
         tileUnit = null;
     }
     public Entity getEntity() {
@@ -20,7 +20,8 @@ public class MapTile {
     public void setEntity(Entity tileUnit) {
         this.tileUnit = tileUnit;
     }
-    public int getX() {return x;}
-    public int getY() {return y;}
+    public int getX() {return p.x;}
+    public int getY() {return p.y;}
+    public Point getPoint() {return p;}
 
 }
