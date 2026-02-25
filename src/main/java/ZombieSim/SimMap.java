@@ -31,7 +31,7 @@ public class SimMap {
         return true;
     }
 
-    public boolean move(Entity unit, Direction direction) {
+    public boolean move(Entity unit, MainApp.Direction direction) {
         Point from = unit.getLocation();
 
         Point to = new Point(
@@ -40,7 +40,7 @@ public class SimMap {
         );
 
         if(outBounds(to)) {return false;}
-        if(getUnit(to) != null) {return false;}
+        if(!isEmpty(to)) {return false;}
 
         tileAt(from).setEntity(null);
         tileAt(to).setEntity(unit);
@@ -87,5 +87,27 @@ public class SimMap {
             if(y > 1) {sb.append("\n");}
         }
         return sb.toString();
+    }
+
+    public static class MapTile {
+
+        private final Point p;
+
+        Entity tileUnit;
+
+        MapTile(Point p) {
+            this.p = new Point(p);
+            tileUnit = null;
+        }
+        public Entity getEntity() {
+            return tileUnit;
+        }
+        public void setEntity(Entity tileUnit) {
+            this.tileUnit = tileUnit;
+        }
+        public int getX() {return p.x;}
+        public int getY() {return p.y;}
+        public Point getPoint() {return new Point(p);}
+
     }
 }

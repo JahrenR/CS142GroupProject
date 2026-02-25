@@ -2,9 +2,7 @@ package ZombieSim;
 import ZombieSim.Entities.*;
 
 import java.awt.*;
-import java.util.Scanner;
-
-import static ZombieSim.Direction.*;
+import static ZombieSim.MainApp.Direction.*;
 
 public class MiniSim {
     static void main(String[] args) {
@@ -33,11 +31,5 @@ public class MiniSim {
         System.out.println("Moving Zombie West");
         map.move(zombie, WEST);
         System.out.println(map);
-    }
-
-    private static int getSize(){
-        Scanner input = new Scanner(System.in);
-        System.out.print("Map Size: ");
-        return input.nextInt();
     }
 }
