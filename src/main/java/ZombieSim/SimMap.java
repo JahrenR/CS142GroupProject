@@ -31,7 +31,7 @@ public class SimMap {
         return true;
     }
 
-    public boolean move(Entity unit, MainApp.Direction direction) {
+    public boolean move(Entity unit, Direction direction) {
         Point from = unit.getLocation();
 
         Point to = new Point(

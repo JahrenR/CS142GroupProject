@@ -2,7 +2,7 @@ package ZombieSim;
 import ZombieSim.Entities.*;
 
 import java.awt.*;
-import static ZombieSim.MainApp.Direction.*;
+import static ZombieSim.Direction.*;
 
 public class MiniSim {
     static void main(String[] args) {
