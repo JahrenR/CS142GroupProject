@@ -78,14 +78,9 @@ public class SimGUI extends JFrame {
     }
 
     public void paintGrid(){
-
         for (int r = 0; r < rows; r++) {
-
             for (int c = 0; c < cols; c++) {
-                    int x = c + 1;
-                    int y = rows - r;
-
-                Entity unit = model.getMap().getUnit(new Point(x, y));
+                Entity unit = model.getUnit(c,r);
                 switch (unit) {
                     case General _ -> gridMap[r][c].setBackground(Color.RED);
                     case Soldier _ -> gridMap[r][c].setBackground(Color.BLACK);

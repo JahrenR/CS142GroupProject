@@ -7,10 +7,12 @@ import java.util.Scanner;
 import static ZombieSim.Direction.*;
 
 public class MiniSim {
+
     static void main(String[] args) {
-        SimModel model = new SimModel(100, 10, 1, 1, 1);
+        SimModel model = new SimModel(60, 10, 1, 1, 1);
         simulate(model);
     }
+
     private static void simulate(SimModel model) {
         Scanner scanner = new Scanner(System.in);
         loop: do {
@@ -36,6 +38,7 @@ public class MiniSim {
             }
         } while (true);
     }
+
     private static void consoleSleep(SimGUI gui) {
         while (!gui.isClosed()) {
             try {Thread.sleep(gui.getSpeed());}

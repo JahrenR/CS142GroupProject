@@ -7,20 +7,17 @@ import java.util.List;
 import java.util.Random;
 
 /*-------------------------The Zombie Apocalypse Model-------------------------
- *
- *
- *
+ *      Start by constructs map with size and spawns entities on the map
+ *       Then handles the running rules and logic behind the simulation
  */
 
 public class SimModel {
     List<Entity> entities = new ArrayList<>();
     SimMap map;
-    Random rand = new Random();
 
-    /*-------------------------Comment-------------------------
-     *
-     *
-     *
+    /*-------------------------Construct---------------------------
+     *           if input given more entities than available spots
+     *             on the map, it will throw IllegalArgument
      */
 
     public SimModel(int size, int humans, int zombies, int soldiers, int generals) {
@@ -35,11 +32,25 @@ public class SimModel {
         }
     }
 
-    /*-------------------------Entities Spawn Methods-------------------------
-     *
-     *
-     *
+    /*----------------------------------Update----------------------------------
+     *           It loops through units of map, moving them in turns
+     *      could be improved if we check intents and collisions beforehand
+     *           currently its just moving each unit randomly
      */
+    public void update() {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity unit = entities.get(i);
+            Direction direction = unit.getMove(this);
+            map.move(unit, direction);
+        }
+    }
+
+    /*-------------------------Entities Spawn Methods----------------------------
+     *      It spawns amount of entities randomly onto the map of size
+     *              Then adds to the list of entities
+     */
+
+    Random rand = new Random();
 
     private void spawnZombie(int amount){
         Point p = new Point();
@@ -101,31 +112,24 @@ public class SimModel {
             entities.add(g);
         }
     }
-
-    /*-------------------------Comment-------------------------
-     *
-     *
-     *
-     */
-    public void update() {
-        for (int i = 0; i < entities.size(); i++) {
-            Entity entity = entities.get(i);
-            Direction direction = entity.getMove(this);
-            map.move(entity, direction);
-        }
-    }
-
-
-
+   // ------------------------------End of Spawn Methods-----------------------------------
 
     //prints the map to console
     public void printMap(){
         System.out.println(map.toString());
     }
 
-
+    //getters
     public SimMap getMap() {return map;}
     public List<Entity> getEntities() {return entities;}
+
+    //get unit with metadata for gui
+    public Entity getUnit(int c, int r) {
+        int x = c + 1;
+        int y = map.size() - r;
+        return map.getUnit(new Point(x, y));
+    }
+
 
 
 }
