@@ -1,14 +1,24 @@
 package ZombieSim.Entities;
 
+import ZombieSim.Direction;
+import ZombieSim.SimModel;
+
 import java.awt.*;
 import java.util.Random;
 
-public class Entity {
+public abstract class Entity {
     public Point p;
     public int size;
     Random rand = new Random();
 
     public Entity() {
+    }
+    abstract Direction getMove(SimModel model);
+
+    Direction randomDirection() {
+        Direction[] dirs = Direction.values();
+        int index = rand.nextInt(dirs.length);
+        return dirs[index];
     }
 
     public void setPosition(Point p) {
@@ -20,7 +30,6 @@ public class Entity {
     public int getY() {return p.y;}
     public Point getLocation() {return new Point(p);}
 
-    //Add Movement "ai" that chases other entities
 
     //die
 

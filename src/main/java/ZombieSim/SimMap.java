@@ -31,6 +31,8 @@ public class SimMap {
     }
 
     public boolean move(Entity unit, Direction direction) {
+        if(unit == null || direction == null) return false;
+        if(direction == Direction.STAY) return true;
         Point from = unit.getLocation();
 
         Point to = new Point(
@@ -38,8 +40,8 @@ public class SimMap {
                 from.y + direction.dy()
         );
 
-        if(outBounds(to)) {return false;}
-        if(!isEmpty(to)) {return false;}
+        if(outBounds(to)) return false;
+        if(!isEmpty(to)) return false;
 
         tileAt(from).setEntity(null);
         tileAt(to).setEntity(unit);
@@ -66,6 +68,7 @@ public class SimMap {
     }
 
     public boolean isEmpty(Point p) {
+        if(outBounds(p)) return false;
         return tileAt(p).getEntity() == null;
     }
 

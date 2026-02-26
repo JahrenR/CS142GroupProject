@@ -1,17 +1,27 @@
 package ZombieSim;
 
 import ZombieSim.Entities.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+/*-------------------------The Zombie Apocalypse Model-------------------------
+ *
+ *
+ *
+ */
 
 public class SimModel {
     List<Entity> entities = new ArrayList<>();
     SimMap map;
     Random rand = new Random();
 
+    /*-------------------------Comment-------------------------
+     *
+     *
+     *
+     */
 
     public SimModel(int size, int humans, int zombies, int soldiers, int generals) {
         this.map = new SimMap(size);
@@ -25,10 +35,17 @@ public class SimModel {
         }
     }
 
+    /*-------------------------Entities Spawn Methods-------------------------
+     *
+     *
+     *
+     */
+
     private void spawnZombie(int amount){
         Point p = new Point();
+        //spawns zombies randomly in the map
         for(int i = 0; i < amount; i++){
-            do {
+            do {//repeat if tile is occupied
                 int x = rand.nextInt(map.size()) + 1;
                 int y = rand.nextInt(map.size()) + 1;
                 p.setLocation(x, y);
@@ -85,9 +102,24 @@ public class SimModel {
         }
     }
 
+    /*-------------------------Comment-------------------------
+     *
+     *
+     *
+     */
+    public Direction getMove(Point p) {
+        for(Entity entity : entities){
+            entity.getMove();
+        }
+    }
+    //prints the map to console
     public void printMap(){
         System.out.println(map.toString());
     }
+
+
+    public SimMap getMap() {return map;}
+    public List<Entity> getEntities() {return entities;}
 
 
 }
