@@ -27,7 +27,6 @@ public class SimMap {
         if(getUnit(p) != null) {return;}
         tileAt(p).setEntity(unit);
         unit.setPosition(new Point(p));
-        unit.setBound(size);
     }
 
     public boolean move(Entity unit, Direction direction) {
