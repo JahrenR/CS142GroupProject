@@ -9,6 +9,9 @@ public class MainApp {
     }
     private static void run(){
         new SimGUI();
+        int size = getSize();
+//        int human = getHuman();
+//        SimModel model = new SimModel(size, human, ...) implement this
     }
 
     private static int getSize(){
@@ -16,4 +19,5 @@ public class MainApp {
         System.out.println("Map Size: ");
         return input.nextInt();
     }
+
 }
