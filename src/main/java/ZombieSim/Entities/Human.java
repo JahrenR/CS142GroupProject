@@ -9,6 +9,7 @@ public class Human extends Entity {
 
     public String toString() {return "H";}
 
+    @Override
     public Direction getMove(SimModel model){
         return randomDirection();
     }

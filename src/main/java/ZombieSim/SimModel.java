@@ -107,11 +107,17 @@ public class SimModel {
      *
      *
      */
-    public Direction getMove(Point p) {
-        for(Entity entity : entities){
-            entity.getMove();
+    public void update() {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity = entities.get(i);
+            Direction direction = entity.getMove(this);
+            map.move(entity, direction);
         }
     }
+
+
+
+
     //prints the map to console
     public void printMap(){
         System.out.println(map.toString());

@@ -7,16 +7,20 @@ import java.awt.*;
 import java.util.Random;
 
 public abstract class Entity {
-    public Point p;
+    private Point p;
 
     Random rand = new Random();
 
-    abstract Direction getMove(SimModel model);
+    public abstract Direction getMove(SimModel model);
 
     Direction randomDirection() {
-        Direction[] dirs = Direction.values();
-        int index = rand.nextInt(dirs.length);
-        return dirs[index];
+        Direction[] direction = {
+                Direction.NORTH,
+                Direction.EAST,
+                Direction.SOUTH,
+                Direction.WEST
+        };
+        return direction[rand.nextInt(direction.length)];
     }
 
     public void setPosition(Point p) {
