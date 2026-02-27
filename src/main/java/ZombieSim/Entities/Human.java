@@ -2,6 +2,7 @@ package ZombieSim.Entities;
 
 import ZombieSim.Direction;
 import ZombieSim.SimModel;
+import ZombieSim.Unit;
 
 import java.awt.*;
 
@@ -28,10 +29,5 @@ public class Human extends Entity {
 
         return direction;
     }
-
-    @Override
-    public boolean isHuman() {return true;}
-    @Override
-    public boolean isRecruitable() {return true;}
 
 }

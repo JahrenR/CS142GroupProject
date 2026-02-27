@@ -8,10 +8,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class SimGUI extends JFrame {
-    private final static int FRAME_WIDTH = 600;
-    private final static int FRAME_HEIGHT = 600;
     private final static int ANIMATION_SPEED = 100;
-    private final static int SIZE = 20;
+    private final static int CELL_SIZE = 20;
     private final int rows;
     private final int cols;
     private boolean closed = false;
@@ -38,7 +36,6 @@ public class SimGUI extends JFrame {
 
     private void setFrame() {
         this.setTitle("Game of Life");
-        this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         closeListener();
@@ -60,7 +57,7 @@ public class SimGUI extends JFrame {
         gridPanel = new JPanel(new GridLayout(rows, cols));
         gridMap = new JPanel[rows][cols];
 
-        gridPanel.setPreferredSize(new Dimension(cols*SIZE, rows*SIZE));
+        gridPanel.setPreferredSize(new Dimension(cols* CELL_SIZE, rows* CELL_SIZE));
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {

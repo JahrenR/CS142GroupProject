@@ -2,11 +2,15 @@ package ZombieSim.Entities;
 
 import ZombieSim.Direction;
 import ZombieSim.SimModel;
+import ZombieSim.Unit;
 
 import java.awt.*;
 import java.util.List;
 
 public class Soldier extends Human {
+    public Soldier() {
+        this.type = Unit.SOLDIER;
+    }
 
     @Override
     public Direction getMove(SimModel model) {
@@ -20,7 +24,7 @@ public class Soldier extends Human {
         int least = Integer.MAX_VALUE;
         List<Entity> entities = model.getEntities();
         for (Entity entity : entities) {
-            if (entity.isZombie()) {
+            if (entity.getType() == Unit.ZOMBIE) {
                 int distance = manhattan(getLocation(), entity.getLocation());
                 if (distance < least) {
                     least = distance;
@@ -34,6 +38,4 @@ public class Soldier extends Human {
     public String toString() {
         return "S";
     }
-    @Override
-    public boolean isRecruitable() {return false;}
 }

@@ -2,6 +2,7 @@ package ZombieSim.Entities;
 
 import ZombieSim.Direction;
 import ZombieSim.SimModel;
+import ZombieSim.Unit;
 
 import java.awt.*;
 import java.util.List;
@@ -10,12 +11,19 @@ import java.util.Random;
 public abstract class Entity {
     private Point p;
 
-    Random rand = new Random();
+    protected Unit type;
+    protected boolean alive = true;
 
-    //--------------Abstract for entities instances' getMove------------
+    protected Entity() {
+        this.type = Unit.HUMAN;
+    };
+
+
+    //--------------Abstract for entities instances------------
     public abstract Direction getMove(SimModel model);
 
     //------It returns random direction with stay being 1/3 chance------
+    Random rand = new Random();
     Direction randomDirection() {
         Direction[] direction = {
                 Direction.NORTH,
@@ -35,7 +43,8 @@ public abstract class Entity {
     public int getX() {return p.x;}
     public int getY() {return p.y;}
     public Point getLocation() {return new Point(p);}
-
+    public Unit getType(){return type;}
+    public boolean isAlive() {return alive;}
     //----------------------------Chaser Helpers--------------------------
 
     public static Direction chaseTo(Point to, Point from) {
@@ -67,21 +76,10 @@ public abstract class Entity {
 
 
     //Death System
-
-    protected boolean alive = true;
-
-    public boolean isAlive() {return alive;}
     public void die(SimModel model) {
         alive = false;
         model.removeEntity(this);
     }
-
-    //convert
-
-    //-------------Flags--------------------
-    public boolean isHuman() {return false;}
-    public boolean isZombie() {return false;}
-    public boolean isRecruitable() {return false;}
 
 
 }

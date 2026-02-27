@@ -44,41 +44,43 @@ public class SimModel {
                 map.move(unit, direction);
             }
         }
-        handleInteractions();
+//        handleInteractions();
     }
 
-    private void handleInteractions()  {
-        List <Entity> copy =  new ArrayList<>(entities);
-        for (Entity entity : copy) {
-            if (!entity.isZombie()) continue;
-            Point zombieLocation = entity.getLocation();
+//    private void handleInteractions()  {
+//        List <Entity> copy =  new ArrayList<>(entities);
+//        for (Entity entity : copy) {
+//            if (!entity.isZombie()) continue;
+//            Point zombieLocation = entity.getLocation();
+//
+//            //check neighbor entity
+//            for (Entity other : new ArrayList<>(entities)) {
+//                if (!other.isHuman()) continue;
+//
+//                if (zombieLocation.equals(other.getLocation())) {
+//                    zombify((Human) other);
+//
+//                }
+//            }
+//        }
+//    }
 
-            //check neighbor entity
-            for (Entity other : new ArrayList<>(entities)) {
-                if (!other.isHuman()) continue;
+    private void checkNeighbours() {
+        for (Entity unit : new ArrayList<>(entities)) {
 
-                if (zombieLocation.equals(other.getLocation())) {
-                    convertHumantoZombie((Human) other);
-
-                }
-            }
         }
     }
-    private void interact() {
-        for (Entity unit : entities) {
 
-        }
+    public void zombify(Entity entity) {
+        Point p = entity.getLocation();
+        despawn(entity);
+        spawnZombie(p);
     }
 
-    private void convertHumantoZombie(Human human) {
-        Point location = human.getLocation();
-
-        human.die(this);
-
-        Zombie newZombie = new Zombie();
-        map.spawn(newZombie, location);
-        entities.add(newZombie);
+    public void despawn(Entity entity) {
+        entity.die(this);
     }
+
 
     // this ArrayList was added after the addition of the death of an entity in Entity Class
 
@@ -175,7 +177,6 @@ public class SimModel {
         map.spawn(g,p);
         entities.add(g);
     }
-   // ------------------------------End of Spawn Methods-----------------------------------
 
     //prints the map to console
     public void printMap(){
