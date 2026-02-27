@@ -24,28 +24,4 @@ public class MainApp {
 
         new SimGUI(model);
     }
-
-    private static List<Integer> getParameters() {
-
-        Scanner input = new Scanner(System.in);
-        List<Integer> list = new ArrayList<>();
-
-        System.out.print("Map Size: ");
-        list.add(input.nextInt());
-
-        System.out.print("Number of Civilians: ");
-        list.add(input.nextInt());
-
-        System.out.print("Number of Zombies: ");
-        list.add(input.nextInt());
-
-        System.out.print("Number of Soldiers: ");
-        list.add(input.nextInt());
-
-        System.out.print("Number of Generals: ");
-        list.add(input.nextInt());
-
-        return list;
-    }
-
 }

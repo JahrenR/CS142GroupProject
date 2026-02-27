@@ -93,7 +93,7 @@ public class SimGUI extends JFrame {
         }
     }
 
-    //------------------------When the gui is disposed, it tells MainApp and stops timer----------------------------
+    //------------------------Stops the timer when gui is disposed----------------------------
     @Override
     public void dispose() {
         timer.stop();
