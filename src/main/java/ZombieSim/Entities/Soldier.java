@@ -18,6 +18,13 @@ public class Soldier extends Human {
         if(nearest == null) {return super.getMove(model);}
         return chaseTo(nearest.getLocation(), getLocation());
     }
+    @Override
+    public void interact(SimModel model) {
+        Entity target = model.seekNeighbor(this, Unit.ZOMBIE);
+        if (target != null) {
+            model.despawn(target);
+        }
+    }
 
     private Entity nearestZombie(SimModel model) {
         Entity nearest = null;

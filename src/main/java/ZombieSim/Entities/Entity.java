@@ -21,6 +21,7 @@ public abstract class Entity {
 
     //--------------Abstract for entities instances------------
     public abstract Direction getMove(SimModel model);
+    public abstract void interact(SimModel model);
 
     //------It returns random direction with stay being 1/3 chance------
     Random rand = new Random();
@@ -74,12 +75,6 @@ public abstract class Entity {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
 
-
-    //Death System
-    public void die(SimModel model) {
-        alive = false;
-        model.removeEntity(this);
-    }
 
 
 }

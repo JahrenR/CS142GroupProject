@@ -18,6 +18,13 @@ public class General extends Soldier {
         if(nearest == null) {return super.getMove(model);}
         return chaseTo(nearest.getLocation(), getLocation());
     }
+    @Override
+    public void interact(SimModel model) {
+        Entity target = model.seekNeighbor(this, Unit.HUMAN);
+        if (target != null) {
+           model.recruit(target);
+        }
+    }
 
     private Entity nearestRecruit(SimModel model) {
         Entity nearest = null;

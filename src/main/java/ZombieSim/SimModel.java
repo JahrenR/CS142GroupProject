@@ -15,6 +15,9 @@ import java.util.Random;
 
 public class SimModel {
     List<Entity> entities = new ArrayList<>();
+    private final List<Entity> toAdd = new ArrayList<>();
+    private final List<Entity> toRemove = new ArrayList<>();
+
     SimMap map;
 
     /*-------------------------Construct---------------------------
@@ -40,52 +43,47 @@ public class SimModel {
      *           currently its just moving each unit randomly
      */
     public void update() {
+        toAdd.clear();
+        toRemove.clear();
         for (Entity unit : entities) {
             Direction direction = unit.getMove(this);
             map.move(unit, direction);
+            unit.interact(this);
         }
-//        handleInteractions();
+
+        for (Entity unit : toRemove) {
+            map.remove(unit);
+            entities.remove(unit);
+        }
+
+        for (Entity unit : toAdd) {
+            map.spawn(unit, unit.getLocation());
+            entities.add(unit);
+        }
     }
+    public void despawnRequest(Entity entity) {
+        if (entity != null) {toRemove.add(entity);}
+    }
+    public void spawnRequest(Entity entity, Point p) {
+        if (entity == null) return;
+        toAdd.add(entity);
+        entity.setPosition(new Point(p));
 
-//    private void handleInteractions()  {
-//        List <Entity> copy =  new ArrayList<>(entities);
-//        for (Entity entity : copy) {
-//            if (!entity.isZombie()) continue;
-//            Point zombieLocation = entity.getLocation();
-//
-//            //check neighbor entity
-//            for (Entity other : new ArrayList<>(entities)) {
-//                if (!other.isHuman()) continue;
-//
-//                if (zombieLocation.equals(other.getLocation())) {
-//                    zombify((Human) other);
-//
-//                }
-//            }
-//        }
-//    }
-
-    private Entity seekNeighbor(Entity unit, Unit type) {
-        Point point = unit.getLocation();
-        Entity type1 = getUnit(point.y , point.x, Direction.NORTH);
-        Entity type2 = getUnit(point.y , point.x, Direction.WEST);
-        Entity type3 = getUnit(point.y , point.x, Direction.EAST);
-        Entity type4 = getUnit(point.y , point.x, Direction.SOUTH);
-        if (type == type1.getType()) {return type1;}
-        if (type == type2.getType()) {return type2;}
-        if (type == type3.getType()) {return type3;}
-        if (type == type4.getType()) {return type4;}
-        return null;
     }
 
     public void zombify(Entity entity) {
         Point p = entity.getLocation();
-        despawn(entity);
-        spawnZombie(p);
+        despawnRequest(entity);
+        spawnRequest(new Zombie(), p);
+    }
+    public void recruit(Entity entity) {
+        Point p = entity.getLocation();
+        despawnRequest(entity);
+        spawnRequest(new Soldier(), p);
     }
 
     public void despawn(Entity entity) {
-        entity.die(this);
+        despawnRequest(entity);
     }
 
 
@@ -207,10 +205,22 @@ public class SimModel {
         y += direction.dy();
         return map.getUnit(new Point(x, y));
     }
+    public Entity seekNeighbor(Entity unit, Unit type) {
+        Point p = unit.getLocation();
 
-    public void removeEntity(Entity e){
-        entities.remove(e);
-        map.remove(e);
+        Entity n = map.getUnit(new Point(p.x, p.y + 1));
+        if (n != null && n.getType() == type) return n;
+
+        Entity s = map.getUnit(new Point(p.x, p.y - 1));
+        if (s != null && s.getType() == type) return s;
+
+        Entity e = map.getUnit(new Point(p.x + 1, p.y));
+        if (e != null && e.getType() == type) return e;
+
+        Entity w = map.getUnit(new Point(p.x - 1, p.y));
+        if (w != null && w.getType() == type) return w;
+
+        return null;
     }
 
 

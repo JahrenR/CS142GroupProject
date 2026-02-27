@@ -18,12 +18,20 @@ public class Zombie extends Human {
         if (nearest == null) {return super.getMove(model);}
         return chaseTo(nearest.getLocation(),getLocation());
     }
+    @Override
+    public void interact(SimModel model) {
+        Entity victim = model.seekNeighbor(this, Unit.HUMAN);
+        if (victim != null) {
+            model.zombify(victim);
+        }
+    }
     private Entity nearestHuman(SimModel model) {
         Entity nearest = null;
         int least = Integer.MAX_VALUE;
         List<Entity> entities = model.getEntities();
         for (Entity entity : entities) {
-            if (entity.isAlive()) {
+            Unit type = entity.getType();
+            if (type == Unit.HUMAN || type == Unit.SOLDIER || type == Unit.GENERAL) {
                 int distance = manhattan(getLocation(), entity.getLocation());
                 if (distance < least) {
                     least = distance;
@@ -37,6 +45,8 @@ public class Zombie extends Human {
     public String toString() {
         return "Z";
     }
+
+
 
 
 }

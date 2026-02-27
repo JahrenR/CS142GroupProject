@@ -7,11 +7,11 @@ import java.util.List;
 
 public class MiniGUI extends JDialog {
 
-    private JTextField sizeField = new JTextField("20");
-    private JTextField civilianField = new JTextField("10");
-    private JTextField zombieField = new JTextField("3");
-    private JTextField soldierField = new JTextField("2");
-    private JTextField generalField = new JTextField("2");
+    private JTextField sizeField = new JTextField("30");
+    private JTextField civilianField = new JTextField("100");
+    private JTextField zombieField = new JTextField("1");
+    private JTextField soldierField = new JTextField("0");
+    private JTextField generalField = new JTextField("1");
 
     private List<Integer> values = null;
 

@@ -29,5 +29,7 @@ public class Human extends Entity {
 
         return direction;
     }
+    @Override
+    public void interact(SimModel model) {}
 
 }
