@@ -64,6 +64,11 @@ public class SimModel {
             }
         }
     }
+    private void interact() {
+        for (Entity unit : entities) {
+
+        }
+    }
 
     private void convertHumantoZombie(Human human) {
         Point location = human.getLocation();
@@ -78,8 +83,10 @@ public class SimModel {
     // this ArrayList was added after the addition of the death of an entity in Entity Class
 
     /*-------------------------Entities Spawn Methods----------------------------
-     *      It spawns amount of entities randomly onto the map of size
-     *              Then adds to the list of entities
+     *      With amount it will spawns amount of entities randomly
+     *          onto the map of size. But if given Point,
+     *                it will spawn there once.
+     *              Then adds to the list of entities.
      */
 
     Random rand = new Random();
@@ -99,6 +106,12 @@ public class SimModel {
             entities.add(z);
         }
     }
+    private void spawnZombie(Point p){
+        if(map.getUnit(p) != null) return;
+        Zombie z = new Zombie();
+        map.spawn(z,p);
+        entities.add(z);
+    }
 
     private void spawnHuman(int amount){
         Point p = new Point();
@@ -113,6 +126,12 @@ public class SimModel {
             map.spawn(h,p);
             entities.add(h);
         }
+    }
+    private void spawnHuman(Point p){
+        if(map.getUnit(p) != null) return;
+        Human h = new Human();
+        map.spawn(h,p);
+        entities.add(h);
     }
 
     private void spawnSoldier(int amount){
@@ -129,6 +148,12 @@ public class SimModel {
             entities.add(s);
         }
     }
+    private void spawnSoldier(Point p){
+        if(map.getUnit(p) != null) return;
+        Soldier s = new Soldier();
+        map.spawn(s,p);
+        entities.add(s);
+    }
 
     private void spawnGeneral(int amount){
         Point p = new Point();
@@ -143,6 +168,12 @@ public class SimModel {
             map.spawn(g,p);
             entities.add(g);
         }
+    }
+    private void spawnGeneral(Point p){
+        if(map.getUnit(p) != null) return;
+        General g = new General();
+        map.spawn(g,p);
+        entities.add(g);
     }
    // ------------------------------End of Spawn Methods-----------------------------------
 

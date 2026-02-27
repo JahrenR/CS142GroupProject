@@ -4,7 +4,6 @@ import ZombieSim.Entities.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -93,7 +92,7 @@ public class SimGUI extends JFrame {
         }
     }
 
-    //------------------------When the gui is disposed, it tells MainApp and stops timer----------------------------
+    //------------------------Stops the timer when gui is disposed----------------------------
     @Override
     public void dispose() {
         timer.stop();
