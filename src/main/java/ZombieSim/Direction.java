@@ -1,5 +1,7 @@
 package ZombieSim;
 
+//Constants for Direction
+
 public enum Direction {
     NORTH(0, 1),
     EAST(1, 0),
@@ -7,8 +9,12 @@ public enum Direction {
     WEST(-1, 0),
     STAY(0,0);
 
-    private final int dx,dy;
-    Direction(int dx, int dy){this.dx=dx;this.dy=dy;}
+    private final int dx, dy;
+
+    Direction(int dx, int dy){
+        this.dx=dx;
+        this.dy=dy;
+    }
 
     public int dx(){return dx;}
     public int dy(){return dy;}
