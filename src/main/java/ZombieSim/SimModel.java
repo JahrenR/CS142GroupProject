@@ -1,6 +1,8 @@
 package ZombieSim;
 
 import ZombieSim.Entities.*;
+
+import javax.swing.text.Position;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +40,9 @@ public class SimModel {
      *           currently its just moving each unit randomly
      */
     public void update() {
-        for (Entity unit : new ArrayList<>(entities)) {
-            if(unit.isAlive()) {
-                Direction direction = unit.getMove(this);
-                map.move(unit, direction);
-            }
+        for (Entity unit : entities) {
+            Direction direction = unit.getMove(this);
+            map.move(unit, direction);
         }
 //        handleInteractions();
     }
@@ -65,10 +65,19 @@ public class SimModel {
 //        }
 //    }
 
-    private void checkNeighbours() {
-        for (Entity unit : new ArrayList<>(entities)) {
-
+    private Entity seekNeighbor(Unit type) {
+        for (Entity unit : entities) {
+            Point point = unit.getLocation();
+            Entity type1 = getUnit(point.y , point.x, Direction.NORTH);
+            Entity type2 = getUnit(point.y , point.x, Direction.WEST);
+            Entity type3 = getUnit(point.y , point.x, Direction.EAST);
+            Entity type4 = getUnit(point.y , point.x, Direction.SOUTH);
+            if (type == type1.getType()) {return type1;}
+            if (type == type2.getType()) {return type2;}
+            if (type == type3.getType()) {return type3;}
+            if (type == type4.getType()) {return type4;}
         }
+        return null;
     }
 
     public void zombify(Entity entity) {
@@ -191,6 +200,13 @@ public class SimModel {
     public Entity getUnit(int c, int r) {
         int x = c + 1;
         int y = map.size() - r;
+        return map.getUnit(new Point(x, y));
+    }
+    public Entity getUnit(int c, int r, Direction direction) {
+        int x = c + 1;
+        int y = map.size() - r;
+        x += direction.dx();
+        y += direction.dy();
         return map.getUnit(new Point(x, y));
     }
 

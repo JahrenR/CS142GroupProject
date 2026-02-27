@@ -1,15 +1,7 @@
 package ZombieSim;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-//import javafx.application.Application;
-//import javafx.scene.Scene;
-//import javafx.stage.Stage;
-//import javafx.scene.layout.BorderPane;
 
 public class MainApp {
-
     public static void main(String[] args) {
 
         MiniGUI miniGUI = new MiniGUI();
