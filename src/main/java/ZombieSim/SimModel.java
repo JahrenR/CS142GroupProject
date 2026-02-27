@@ -65,18 +65,16 @@ public class SimModel {
 //        }
 //    }
 
-    private Entity seekNeighbor(Unit type) {
-        for (Entity unit : entities) {
-            Point point = unit.getLocation();
-            Entity type1 = getUnit(point.y , point.x, Direction.NORTH);
-            Entity type2 = getUnit(point.y , point.x, Direction.WEST);
-            Entity type3 = getUnit(point.y , point.x, Direction.EAST);
-            Entity type4 = getUnit(point.y , point.x, Direction.SOUTH);
-            if (type == type1.getType()) {return type1;}
-            if (type == type2.getType()) {return type2;}
-            if (type == type3.getType()) {return type3;}
-            if (type == type4.getType()) {return type4;}
-        }
+    private Entity seekNeighbor(Entity unit, Unit type) {
+        Point point = unit.getLocation();
+        Entity type1 = getUnit(point.y , point.x, Direction.NORTH);
+        Entity type2 = getUnit(point.y , point.x, Direction.WEST);
+        Entity type3 = getUnit(point.y , point.x, Direction.EAST);
+        Entity type4 = getUnit(point.y , point.x, Direction.SOUTH);
+        if (type == type1.getType()) {return type1;}
+        if (type == type2.getType()) {return type2;}
+        if (type == type3.getType()) {return type3;}
+        if (type == type4.getType()) {return type4;}
         return null;
     }
 
