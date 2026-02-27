@@ -211,8 +211,20 @@ public class SimModel {
         Entity n = map.getUnit(new Point(p.x, p.y + 1));
         if (n != null && n.getType() == type) return n;
 
+        Entity ne = map.getUnit(new Point(p.x + 1, p.y + 1));
+        if (ne != null && ne.getType() == type) return ne;
+
+        Entity nw = map.getUnit(new Point(p.x - 1, p.y + 1));
+        if (nw != null && nw.getType() == type) return nw;
+
         Entity s = map.getUnit(new Point(p.x, p.y - 1));
         if (s != null && s.getType() == type) return s;
+
+        Entity se = map.getUnit(new Point(p.x - 1, p.y - 1));
+        if (se != null && se.getType() == type) return se;
+
+        Entity sw = map.getUnit(new Point(p.x + 1, p.y - 1));
+        if (sw != null && sw.getType() == type) return sw;
 
         Entity e = map.getUnit(new Point(p.x + 1, p.y));
         if (e != null && e.getType() == type) return e;
