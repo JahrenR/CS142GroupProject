@@ -38,12 +38,44 @@ public class SimModel {
      *           currently its just moving each unit randomly
      */
     public void update() {
-        for (Entity unit : entities) {
-            Direction direction = unit.getMove(this);
-            map.move(unit, direction);
+        for (Entity unit : new ArrayList<>(entities)) {
+            if(unit.isAlive()) {
+                Direction direction = unit.getMove(this);
+                map.move(unit, direction);
+            }
+        }
+        handleInteractions();
+    }
 
+    private void handleInteractions()  {
+        List <Entity> copy =  new ArrayList<>(entities);
+        for (Entity entity : copy) {
+            if (!entity.isZombie()) continue;
+            Point zombieLocation = entity.getLocation();
+
+            //check neighbor entity
+            for (Entity other : new ArrayList<>(entities)) {
+                if (!other.isHuman()) continue;
+
+                if (zombieLocation.equals(other.getLocation())) {
+                    convertHumantoZombie((Human) other);
+
+                }
+            }
         }
     }
+
+    private void convertHumantoZombie(Human human) {
+        Point location = human.getLocation();
+
+        human.die(this);
+
+        Zombie newZombie = new Zombie();
+        map.spawn(newZombie, location);
+        entities.add(newZombie);
+    }
+
+    // this ArrayList was added after the addition of the death of an entity in Entity Class
 
     /*-------------------------Entities Spawn Methods----------------------------
      *      It spawns amount of entities randomly onto the map of size
@@ -128,6 +160,11 @@ public class SimModel {
         int x = c + 1;
         int y = map.size() - r;
         return map.getUnit(new Point(x, y));
+    }
+
+    public void removeEntity(Entity e){
+        entities.remove(e);
+        map.remove(e);
     }
 
 

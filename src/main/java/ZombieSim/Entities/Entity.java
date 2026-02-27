@@ -66,7 +66,15 @@ public abstract class Entity {
     }
 
 
-    //die
+    //Death System
+
+    protected boolean alive = true;
+
+    public boolean isAlive() {return alive;}
+    public void die(SimModel model) {
+        alive = false;
+        model.removeEntity(this);
+    }
 
     //convert
 

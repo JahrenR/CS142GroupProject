@@ -41,6 +41,8 @@ public class SimMap {
 
     }
 
+
+
     /*-------------------------Construct---------------------------
      *         creates square 2d array of map Tiles
      */
@@ -95,6 +97,17 @@ public class SimMap {
         tileAt(to).setEntity(unit);
 
         unit.setPosition(new Point(to));
+    }
+
+    /* -------------------Remove Entity from Map ------------------------------- */
+    public void remove(Entity unit) {
+        if (unit == null) return;
+
+        Point p = unit.getLocation();
+                if(outBounds(p)) return;
+
+                tileAt(p).setEntity(null);
+
     }
 
     /*-------------------------Helpers---------------------------
