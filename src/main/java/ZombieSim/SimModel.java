@@ -38,10 +38,10 @@ public class SimModel {
      *           currently its just moving each unit randomly
      */
     public void update() {
-        for (int i = 0; i < entities.size(); i++) {
-            Entity unit = entities.get(i);
+        for (Entity unit : entities) {
             Direction direction = unit.getMove(this);
             map.move(unit, direction);
+
         }
     }
 
