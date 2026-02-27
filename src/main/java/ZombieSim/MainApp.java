@@ -7,7 +7,8 @@ public class MainApp {
 
     public static void main(String[] args) {
 
-        ArrayList<Integer> list = getParameters();
+        MiniGUI miniGUI = new MiniGUI();
+        ArrayList<Integer> list = miniGUI.getList();
 
         SimModel model = new SimModel(
                 list.get(0),  // size
