@@ -3,6 +3,7 @@ package ZombieSim;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MiniGUI extends JDialog {
 
@@ -12,7 +13,7 @@ public class MiniGUI extends JDialog {
     private JTextField soldierField = new JTextField("2");
     private JTextField generalField = new JTextField("2");
 
-    private ArrayList<Integer> values = null;
+    private List<Integer> values = null;
 
     public MiniGUI() {
         setTitle("Zombie Simulation Setup");
@@ -98,7 +99,7 @@ public class MiniGUI extends JDialog {
         JOptionPane.showMessageDialog(this, message, "Invalid Input", JOptionPane.ERROR_MESSAGE);
     }
 
-    public ArrayList<Integer> getValues() {
+    public List<Integer> getValues() {
         return values;
     }
 }

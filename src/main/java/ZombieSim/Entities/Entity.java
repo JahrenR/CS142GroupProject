@@ -60,25 +60,12 @@ public abstract class Entity {
         }
         return Direction.STAY;
     }
-    public Entity nearestEntity(SimModel model,boolean condition) {
-        Entity nearest = null;
-        int least = Integer.MAX_VALUE;
-        List<Entity> entities = model.getEntities();
-        for (Entity entity : entities) {
-            if (condition) {
-                int distance = manhattan(getLocation(), entity.getLocation());
-                if (distance < least) {
-                    least = distance;
-                    nearest = entity;
-                }
-            }
-        }
-        return nearest;
-    }
 
     public int manhattan(Point a, Point b){
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
+
+
     //die
 
     //convert

@@ -101,8 +101,7 @@ public class SimGUI extends JFrame {
         super.dispose();
     }
 
-    //--------------------------------helpers for consoleSleep in simulation----------------------------------------
+    //--------------------------------flag for gui dispose----------------------------------------
     public boolean isClosed() {return closed;}
-    public int getSpeed() {return ANIMATION_SPEED;}
 }
 

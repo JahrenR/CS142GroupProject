@@ -1,6 +1,7 @@
 package ZombieSim;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainApp {
@@ -8,7 +9,7 @@ public class MainApp {
     public static void main(String[] args) {
 
         MiniGUI miniGUI = new MiniGUI();
-        ArrayList<Integer> list = miniGUI.getValues();
+        List<Integer> list = miniGUI.getValues();
 
         if (list == null) {
             System.exit(0);
@@ -24,10 +25,10 @@ public class MainApp {
         new SimGUI(model);
     }
 
-    private static ArrayList<Integer> getParameters() {
+    private static List<Integer> getParameters() {
 
         Scanner input = new Scanner(System.in);
-        ArrayList<Integer> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
 
         System.out.print("Map Size: ");
         list.add(input.nextInt());
@@ -47,38 +48,4 @@ public class MainApp {
         return list;
     }
 
-    private static void simulate(SimModel model) {
-        Scanner scanner = new Scanner(System.in);
-        loop: do {
-            System.out.print("a)nimate, t)ick, q)uit? ");
-            String input = scanner.nextLine().trim().toLowerCase();
-
-            switch (input) {
-                case "a":
-                    SimGUI gui = new SimGUI(model);
-                    consoleSleep(gui);
-                    model.printMap();
-                    break;
-                case "t":
-                    model.update();
-                    model.printMap();
-                    break;
-                case "q":
-                    System.out.println("Have a nice Life!");
-                    break loop;
-                default:
-                    System.out.println("Invalid input");
-                    break;
-            }
-        } while (true);
-    }
-
-    private static void consoleSleep(SimGUI gui) {
-        while (!gui.isClosed()) {
-            try {Thread.sleep(gui.getSpeed());}
-            catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }
