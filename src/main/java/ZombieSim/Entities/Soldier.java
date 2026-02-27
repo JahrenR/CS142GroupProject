@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.List;
 
 public class Soldier extends Human {
+
     @Override
     public Direction getMove(SimModel model) {
         Entity nearest = nearestZombie(model);
@@ -14,7 +15,7 @@ public class Soldier extends Human {
         return chaseTo(nearest.getLocation(), getLocation());
     }
 
-    public Entity nearestZombie(SimModel model) {
+    private Entity nearestZombie(SimModel model) {
         Entity nearest = null;
         int least = Integer.MAX_VALUE;
         List<Entity> entities = model.getEntities();
@@ -33,9 +34,6 @@ public class Soldier extends Human {
     public String toString() {
         return "S";
     }
-
     @Override
-    public boolean isSolider() {return true;}
-    @Override
-    public boolean isRecruit() {return false;}
+    public boolean isRecruitable() {return false;}
 }

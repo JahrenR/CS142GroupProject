@@ -86,8 +86,7 @@ public abstract class Entity {
     //-------------Flags--------------------
     public boolean isHuman() {return false;}
     public boolean isZombie() {return false;}
-    public boolean isSolider() {return false;}
-    public boolean isRecruit() {return false;}
+    public boolean isRecruitable() {return false;}
 
 
 }

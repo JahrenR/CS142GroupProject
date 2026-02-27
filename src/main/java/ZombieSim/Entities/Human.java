@@ -32,6 +32,6 @@ public class Human extends Entity {
     @Override
     public boolean isHuman() {return true;}
     @Override
-    public boolean isRecruit() {return true;}
+    public boolean isRecruitable() {return true;}
 
 }

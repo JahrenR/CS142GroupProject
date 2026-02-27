@@ -14,7 +14,7 @@ public class Zombie extends Human {
         if (nearest == null) {return super.getMove(model);}
         return chaseTo(nearest.getLocation(),getLocation());
     }
-    public Entity nearestHuman(SimModel model) {
+    private Entity nearestHuman(SimModel model) {
         Entity nearest = null;
         int least = Integer.MAX_VALUE;
         List<Entity> entities = model.getEntities();
@@ -37,7 +37,7 @@ public class Zombie extends Human {
     @Override
     public boolean isZombie() {return true;}
     @Override
-    public boolean isRecruit() {return false;}
+    public boolean isRecruitable() {return false;}
     @Override
     public boolean isHuman() {return false;}
 

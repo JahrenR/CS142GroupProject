@@ -14,12 +14,12 @@ public class General extends Soldier {
         return chaseTo(nearest.getLocation(), getLocation());
     }
 
-    public Entity nearestRecruit(SimModel model) {
+    private Entity nearestRecruit(SimModel model) {
         Entity nearest = null;
         int least = Integer.MAX_VALUE;
         List<Entity> entities = model.getEntities();
         for (Entity entity : entities) {
-            if (entity.isRecruit()) {
+            if (entity.isRecruitable()) {
                 int distance = manhattan(getLocation(), entity.getLocation());
                 if (distance < least) {
                     least = distance;
