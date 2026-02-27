@@ -6,52 +6,55 @@ import java.util.ArrayList;
 
 public class MiniGUI extends JDialog {
 
-    private JTextField sizeField;
-    private JTextField civilianField;
-    private JTextField zombieField;
-    private JTextField soldierField;
-    private JTextField generalField;
+    private JTextField sizeField = new JTextField("20");
+    private JTextField civilianField = new JTextField("10");
+    private JTextField zombieField = new JTextField("3");
+    private JTextField soldierField = new JTextField("2");
+    private JTextField generalField = new JTextField("2");
 
-    private ArrayList<Integer> list;
+    private ArrayList<Integer> values = null;
 
     public MiniGUI() {
-        setTitle("Simulation Setup");
-        setModal(true); // THIS makes it block main thread
-        setSize(300, 250);
+        setTitle("Zombie Simulation Setup");
+        setModal(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setSize(350, 250);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(5, 2, 5, 5));
 
-        sizeField = new JTextField();
-        civilianField = new JTextField();
-        zombieField = new JTextField();
-        soldierField = new JTextField();
-        generalField = new JTextField();
+        JPanel mainPanel = new JPanel(new BorderLayout(10,10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 
-        add(new JLabel("Map Size:"));
-        add(sizeField);
+        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
 
-        add(new JLabel("Civilians:"));
-        add(civilianField);
+        inputPanel.add(new JLabel("Map Size:"));
+        inputPanel.add(sizeField);
 
-        add(new JLabel("Zombies:"));
-        add(zombieField);
+        inputPanel.add(new JLabel("Civilians:"));
+        inputPanel.add(civilianField);
 
-        add(new JLabel("Soldiers:"));
-        add(soldierField);
+        inputPanel.add(new JLabel("Zombies:"));
+        inputPanel.add(zombieField);
 
-        add(new JLabel("Generals:"));
-        add(generalField);
+        inputPanel.add(new JLabel("Soldiers:"));
+        inputPanel.add(soldierField);
 
-        JButton submitButton = new JButton("Submit");
-        add(new JLabel()); // empty cell
-        add(submitButton);
+        inputPanel.add(new JLabel("Generals:"));
+        inputPanel.add(generalField);
 
-        submitButton.addActionListener(e -> submit());
+        JButton submitButton = new JButton("Start Simulation");
 
-        setVisible(true); // blocks until closed
+        submitButton.addActionListener(e -> validateAndSubmit());
+
+        mainPanel.add(inputPanel, BorderLayout.CENTER);
+        mainPanel.add(submitButton, BorderLayout.SOUTH);
+
+        add(mainPanel);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true); // blocks until disposed
     }
 
-    private void submit() {
+    private void validateAndSubmit() {
         try {
             int size = Integer.parseInt(sizeField.getText());
             int civilians = Integer.parseInt(civilianField.getText());
@@ -59,20 +62,43 @@ public class MiniGUI extends JDialog {
             int soldiers = Integer.parseInt(soldierField.getText());
             int generals = Integer.parseInt(generalField.getText());
 
-            list = new ArrayList<>();
-            list.add(size);
-            list.add(civilians);
-            list.add(zombies);
-            list.add(soldiers);
-            list.add(generals);
+            if (size <= 0) {
+                showError("Map size must be positive.");
+                return;
+            }
 
-            dispose(); // closes dialog
+            int totalUnits = civilians + zombies + soldiers + generals;
+            int maxSpots = size * size;
+
+            if (totalUnits > maxSpots) {
+                showError("Too many units! Max allowed for this map: " + maxSpots);
+                return;
+            }
+
+            if (totalUnits == maxSpots) {
+                showError("All spaces filled — nobody can move!");
+                return;
+            }
+
+            values = new ArrayList<>();
+            values.add(size);
+            values.add(civilians);
+            values.add(zombies);
+            values.add(soldiers);
+            values.add(generals);
+
+            dispose(); // close dialog
+
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Please enter valid integers.");
+            showError("Please enter valid integers.");
         }
     }
 
-    public ArrayList<Integer> getList() {
-        return list;
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Invalid Input", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public ArrayList<Integer> getValues() {
+        return values;
     }
 }

@@ -8,17 +8,20 @@ public class MainApp {
     public static void main(String[] args) {
 
         MiniGUI miniGUI = new MiniGUI();
-        ArrayList<Integer> list = miniGUI.getList();
+        ArrayList<Integer> list = miniGUI.getValues();
+
+        if (list == null) {
+            System.exit(0);
+        }
 
         SimModel model = new SimModel(
-                list.get(0),  // size
-                list.get(1),  // civilians
-                list.get(2),  // zombies
-                list.get(3),  // soldiers
-                list.get(4)   //Generals
-        );
+                list.get(0),
+                list.get(1),
+                list.get(2),
+                list.get(3),
+                list.get(4));
 
-        simulate(model);
+        new SimGUI(model);
     }
 
     private static ArrayList<Integer> getParameters() {
