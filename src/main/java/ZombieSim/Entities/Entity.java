@@ -16,9 +16,6 @@ public abstract class Entity {
 
     //------It returns random direction with stay being 1/3 chance------
     Direction randomDirection() {
-        // 1/3 chance to stay still
-        if(rand.nextInt(3)==0) return Direction.STAY;
-
         Direction[] direction = {
                 Direction.NORTH,
                 Direction.EAST,

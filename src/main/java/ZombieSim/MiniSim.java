@@ -9,7 +9,7 @@ import static ZombieSim.Direction.*;
 public class MiniSim {
 
     static void main(String[] args) {
-        SimModel model = new SimModel(60, 10, 1, 1, 1);
+        SimModel model = new SimModel(50, 30, 1, 1, 1);
         simulate(model);
     }
 

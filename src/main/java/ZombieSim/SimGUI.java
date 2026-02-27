@@ -15,6 +15,7 @@ public class SimGUI extends JFrame {
     private final static int SIZE = 20;
     private final int rows;
     private final int cols;
+    private boolean closed = false;
 
     SimModel model;
 
@@ -22,8 +23,6 @@ public class SimGUI extends JFrame {
     JPanel[][] gridMap;
 
     Timer timer = new Timer(ANIMATION_SPEED, _ -> update());
-
-    private boolean closed = false;
 
     public SimGUI(SimModel model) {
         this.model = model;
@@ -33,6 +32,10 @@ public class SimGUI extends JFrame {
         timer.start();
     }
 
+    public void update(){
+        model.update();
+        paintGrid();
+    }
 
     private void setFrame() {
         this.setTitle("Game of Life");
@@ -72,11 +75,9 @@ public class SimGUI extends JFrame {
         pack();
     }
 
-    public void update(){
-        model.update();
-        paintGrid();
-    }
 
+
+    //-------------------------Paints tiles based on units on the tile-----------------------------------------
     public void paintGrid(){
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
@@ -84,7 +85,7 @@ public class SimGUI extends JFrame {
                 switch (unit) {
                     case General _ -> gridMap[r][c].setBackground(Color.RED);
                     case Soldier _ -> gridMap[r][c].setBackground(Color.BLACK);
-                    case Zombie _ -> gridMap[r][c].setBackground(Color.GREEN);
+                    case Zombie _ -> gridMap[r][c].setBackground(new Color(111, 161, 25, 255));
                     case Human _ -> gridMap[r][c].setBackground(new Color(195, 149, 130));
                     case null, default -> gridMap[r][c].setBackground(Color.WHITE);
                 }
@@ -92,6 +93,7 @@ public class SimGUI extends JFrame {
         }
     }
 
+    //------------------------When the gui is disposed, it tells MainApp and stops timer----------------------------
     @Override
     public void dispose() {
         timer.stop();
@@ -99,6 +101,7 @@ public class SimGUI extends JFrame {
         super.dispose();
     }
 
+    //--------------------------------helpers for consoleSleep in simulation----------------------------------------
     public boolean isClosed() {return closed;}
     public int getSpeed() {return ANIMATION_SPEED;}
 }
