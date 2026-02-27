@@ -29,5 +29,9 @@ public class Human extends Entity {
         return direction;
     }
 
+    @Override
+    public boolean isHuman() {return true;}
+    @Override
+    public boolean isRecruit() {return true;}
 
 }
