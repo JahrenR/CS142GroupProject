@@ -5,6 +5,4 @@ public enum Unit {
     ZOMBIE,
     SOLDIER,
     GENERAL;
-
-
 }

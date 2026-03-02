@@ -10,7 +10,7 @@ public enum Direction {
     STAY(0,0);
 
     private final int dx, dy;
-
+    // stores the movement offsets
     Direction(int dx, int dy){
         this.dx=dx;
         this.dy=dy;

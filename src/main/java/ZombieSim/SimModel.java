@@ -61,9 +61,11 @@ public class SimModel {
             entities.add(unit);
         }
     }
+    // removes an entity at the end of the tick
     public void despawnRequest(Entity entity) {
         if (entity != null) {toRemove.add(entity);}
     }
+    // spawns an entity at the end of the tick
     public void spawnRequest(Entity entity, Point p) {
         if (entity == null) return;
         toAdd.add(entity);
@@ -234,7 +236,4 @@ public class SimModel {
 
         return null;
     }
-
-
-
 }
