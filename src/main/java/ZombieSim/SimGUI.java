@@ -4,77 +4,166 @@ import ZombieSim.Entities.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-/*------------------Main GUI class--------------------
- *      This GUI initiates with the given model
- *     and constructs map of panels that will be
- *      painted on what unit type is occupying
+/*
+ * This class is responsible for:
+ *   - Creating the main simulation window
+ *   - Building the visual grid
+ *   - Animating the simulation
+ *   - Painting each tile based on what entity occupies it
+ *
+ *
+ * This class does not contain simulation logic.
+ * It only displays the state of the SimModel.
+ *
+ * This follows separation of:
+ *   - SimModel = logic
+ *   - SimMap = storage
+ *   - SimGUI = visualization
  */
-
 public class SimGUI extends JFrame {
+
+    /*
+     * ANIMATION_SPEED controls how fast the simulation updates.
+     * 100 milliseconds means the simulation updates 10 times per second.
+     */
     private final static int ANIMATION_SPEED = 100;
+
+    /*
+     * CELL_SIZE controls how big each square appears visually.
+     */
     private final static int CELL_SIZE = 20;
+
+    /*
+     * The size of the grid (width and height).
+     * Retrieved from the model.
+     */
     private final int size;
 
+    /*
+     * Reference to the simulation model.
+     * The GUI reads data from this.
+     */
     SimModel model;
 
+    /*
+     * gridPanel holds all tile panels.
+     * gridMap is a 2D array of JPanels representing each tile.
+     */
     JPanel gridPanel = new JPanel();
     JPanel[][] gridMap;
 
-    //timer that updates the simulation
+    /*
+     * Swing Timer:
+     * Calls update() every ANIMATION_SPEED milliseconds.
+     * This creates the animation effect.
+     */
     Timer timer = new Timer(ANIMATION_SPEED, _ -> update());
 
-    //---------------------Construct of SimGUI------------------------
+    /*
+     * Constructor
+     *
+     * Takes a SimModel as input.
+     * Builds the frame and starts animation.
+     */
     public SimGUI(SimModel model) {
         this.model = model;
         size = model.getMap().size();
-        setFrame();
-        timer.start();
+
+        setFrame();   // Build the window
+        timer.start(); // Start animation loop
     }
 
-    //updates the map by updating model then paints grid
+    /*
+     * Update Method
+     * This runs every animation tick.
+     *
+     * Steps:
+     *   1. Update simulation logic in model
+     *   2. Repaint the grid visually
+     *
+     * This keeps logic and graphics separate.
+     */
     public void update(){
         model.update();
         paintGrid();
     }
 
-    //---------------------------JFrame set up---------------------------
+    /*
+     * ========================= Frame Setup =========================
+     *
+     * Configures the JFrame properties.
+     */
     private void setFrame() {
+
         this.setTitle("Zombie Apocalypse");
+
+        // Close entire program when window closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //creates map grid
+        // Build the grid layout
         buildGrid();
 
         this.setResizable(false);
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null); // Center window
         this.setVisible(true);
     }
 
-    //------------builds grid of panel based on the size of model------------
+    /*
+     * Build Grid
+     * Creates a size x size grid of JPanels.
+     *
+     * Each JPanel represents one tile on the map.
+     */
     private void buildGrid() {
+
         setLayout(new BorderLayout());
+
         gridPanel = new JPanel(new GridLayout(size, size));
+
         gridMap = new JPanel[size][size];
 
-        gridPanel.setPreferredSize(new Dimension(size* CELL_SIZE, size* CELL_SIZE));
+        /*
+         * Set total window size based on:
+         * grid size × cell size
+         */
+        gridPanel.setPreferredSize(
+                new Dimension(size * CELL_SIZE, size * CELL_SIZE)
+        );
 
+        /*
+         * Create each tile panel and store it
+         * in the 2D gridMap array.
+         */
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
+
                 JPanel p = new JPanel();
+
                 gridMap[r][c] = p;
                 gridPanel.add(p);
             }
         }
+
+        // Paint initial state
         paintGrid();
+
         add(gridPanel, BorderLayout.CENTER);
         pack();
     }
 
-
-
+    /*
+     * Paint Grid
+     *
+     * This method updates tile colors based on
+     * which entity is occupying each position.
+     *
+     * It reads from the model.
+     *
+     * This demonstrates polymorphism:
+     * We don’t need to know how entities behave,
+     * only what type they are.
+     */
     //---------------Paints tiles based on units on the tile----------------------
     public void paintGrid(){
         for (int r = 0; r < size; r++) {
