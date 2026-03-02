@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class Entity {
+    // location of the entity on the map
     private Point p;
-
+    // type of entity
     protected Unit type;
+    // weather the entity is alive or not
     protected boolean alive = true;
-
     protected Entity() {
         this.type = Unit.HUMAN;
     };
@@ -24,7 +25,7 @@ public abstract class Entity {
     // for the different interactions
     public abstract void interact(SimModel model);
 
-    //------It returns random direction with stay being 1/3 chance------
+    //It returns random direction with stay being 1/3 chance, given by Human
 
     Random rand = new Random();
     Direction randomDirection() {
