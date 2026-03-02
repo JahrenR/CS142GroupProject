@@ -18,7 +18,7 @@ public class Human extends Entity {
 
     @Override
     public Direction getMove(SimModel model){
-        // 1/3 chance to stay still
+        // 1/3 chance to stay still - no movement
         if(rand.nextInt(3)==0) return Direction.STAY;
         steps++;
         // change direction after 3 steps

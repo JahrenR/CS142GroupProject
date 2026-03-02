@@ -9,19 +9,23 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class Entity {
+    // entity's location on the map
     private Point p;
-
+    // what kind of unit it is between the subclasses
     protected Unit type;
+    // weather is alive
     protected boolean alive = true;
-
+    // this is protected so subclasses that have the possibility of changing this can read it and change it
+    // because other subclasses, for example soldiers, can change the status of a zombie
     protected Entity() {
         this.type = Unit.HUMAN;
     };
 
-
-    //--------------Abstract for entities instances------------
+    // Abstract for entities instances for everything that exists on the grid
     public abstract Direction getMove(SimModel model);
+    // passes the map and decide where to move at that tick
     public abstract void interact(SimModel model);
+    // after moving, do the interaction the subclass is supposed to do
 
     //------It returns random direction with stay being 1/3 chance------
     Random rand = new Random();
@@ -34,6 +38,7 @@ public abstract class Entity {
         };
 
         return direction[rand.nextInt(direction.length)];
+        // moves randomly in a direction
     }
     //------------sets this entity to new position----------------------
     public void setPosition(Point p) {
@@ -69,12 +74,14 @@ public abstract class Entity {
             }
         }
         return Direction.STAY;
+        // used to move
     }
-
+    // used to give the closest point, and chase
     public int manhattan(Point a, Point b){
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
 
-
-
 }
+// this entity class is the abstract parent of all the units in the project
+// every entity has its own point, unit type and if they are alive or not
+// every entity uses methods to move and interact with other classes if possible
