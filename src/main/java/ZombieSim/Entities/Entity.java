@@ -18,10 +18,10 @@ public abstract class Entity {
         this.type = Unit.HUMAN;
     };
 
-
-    //--------------Abstract for entities instances------------
-
+    // entity is the abstract base for the classes that exist on the grid
+    // for movements
     public abstract Direction getMove(SimModel model);
+    // for the different interactions
     public abstract void interact(SimModel model);
 
     //------It returns random direction with stay being 1/3 chance------
@@ -77,10 +77,10 @@ public abstract class Entity {
     }
 
     // the manhattan math that helps determine which direction to go for chasing
-    public int manhattan(Point a, Point b){
+    public int manhattan(Point a, Point b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
-
-
-
 }
+// the entity class is the base for all the entities in the project
+// every entity has stored a point, unit type, and if the entity is alive or not
+// every entity uses methods to move and to interacts with other entities
