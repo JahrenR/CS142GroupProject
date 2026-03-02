@@ -84,4 +84,6 @@ public abstract class Entity {
 }
 // this entity class is the abstract parent of all the units in the project
 // every entity has its own point, unit type and if they are alive or not
+
 // every entity uses methods to move and interact with other classes if possible
+
