@@ -5,28 +5,85 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * ========================= MiniGUI =========================
+ *
+ * This class creates the setup popup window that appears
+ * before the simulation starts.
+ *
+ * It allows the user to input:
+ *   - Map size
+ *   - Number of civilians
+ *   - Number of zombies
+ *   - Number of soldiers
+ *   - Number of generals
+ *
+ * This class handles:
+ *   - Collecting user input
+ *   - Validating the input
+ *   - Returning the values to the main program
+ *
+ * It does NOT run the simulation.
+ * It only gathers configuration settings.
+ */
 public class MiniGUI extends JDialog {
 
+    /*
+     * These are text fields that allow the user
+     * to type in numeric values.
+     *
+     * We provide default values so the simulation
+     * can run immediately if the user doesn't change anything.
+     */
     private JTextField sizeField = new JTextField("30");
     private JTextField civilianField = new JTextField("100");
     private JTextField zombieField = new JTextField("1");
     private JTextField soldierField = new JTextField("0");
     private JTextField generalField = new JTextField("1");
 
+    /*
+     * This list stores the validated values.
+     *
+     * It starts as null.
+     * If it remains null, it means the user closed the window
+     * without successfully submitting.
+     *
+     * If it is NOT null, then the input was valid
+     * and the simulation can start.
+     */
     private List<Integer> values = null;
 
+    /*
+     * Constructor
+     *
+     * Builds the popup window and lays out
+     * all labels, fields, and buttons.
+     */
     public MiniGUI() {
+
         setTitle("Zombie Simulation Setup");
+
+        // Makes this a modal dialog — blocks main program until closed
         setModal(true);
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(350, 250);
         setLocationRelativeTo(null);
 
+        /*
+         * Main panel uses BorderLayout
+         * Adds spacing between components.
+         */
         JPanel mainPanel = new JPanel(new BorderLayout(10,10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 
+        /*
+         * GridLayout organizes labels and text fields
+         * into a clean 2-column structure.
+         */
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
 
+        // Label and text field pairs
         inputPanel.add(new JLabel("Map Size:"));
         inputPanel.add(sizeField);
 
@@ -42,32 +99,64 @@ public class MiniGUI extends JDialog {
         inputPanel.add(new JLabel("Generals:"));
         inputPanel.add(generalField);
 
+        /*
+         * Submit button starts validation process.
+         */
         JButton submitButton = new JButton("Start Simulation");
 
         submitButton.addActionListener(e -> validateAndSubmit());
 
+        // Assemble layout
         mainPanel.add(inputPanel, BorderLayout.CENTER);
         mainPanel.add(submitButton, BorderLayout.SOUTH);
 
         add(mainPanel);
+
         pack();
         setLocationRelativeTo(null);
-        setVisible(true); // blocks until disposed
+
+        /*
+         * setVisible(true) makes the dialog appear.
+         * Because it is modal, execution pauses here
+         * until the window is closed.
+         */
+        setVisible(true);
     }
 
+    /*
+     * ========================= Validation Logic =========================
+     *
+     * This method:
+     *   1. Converts text input into integers
+     *   2. Checks for invalid input
+     *   3. Ensures map constraints are satisfied
+     *   4. Stores values if everything is valid
+     */
     private void validateAndSubmit() {
+
         try {
+
+            // Convert text fields to integers
             int size = Integer.parseInt(sizeField.getText());
             int civilians = Integer.parseInt(civilianField.getText());
             int zombies = Integer.parseInt(zombieField.getText());
             int soldiers = Integer.parseInt(soldierField.getText());
             int generals = Integer.parseInt(generalField.getText());
 
+            /*
+             * Rule 1:
+             * Map size must be positive.
+             */
             if (size <= 0) {
                 showError("Map size must be positive.");
                 return;
             }
 
+            /*
+             * Rule 2:
+             * Total number of entities cannot exceed
+             * total grid spaces.
+             */
             int totalUnits = civilians + zombies + soldiers + generals;
             int maxSpots = size * size;
 
@@ -76,11 +165,20 @@ public class MiniGUI extends JDialog {
                 return;
             }
 
+            /*
+             * Rule 3:
+             * Map cannot be completely full,
+             * otherwise nobody can move.
+             */
             if (totalUnits == maxSpots) {
                 showError("All spaces filled — nobody can move!");
                 return;
             }
 
+            /*
+             * If all validation passes,
+             * store results in a list.
+             */
             values = new ArrayList<>();
             values.add(size);
             values.add(civilians);
@@ -88,17 +186,38 @@ public class MiniGUI extends JDialog {
             values.add(soldiers);
             values.add(generals);
 
-            dispose(); // close dialog
+            /*
+             * Close dialog.
+             * Main program resumes after this.
+             */
+            dispose();
 
         } catch (NumberFormatException ex) {
+
+            /*
+             * If user types letters or invalid numbers,
+             * show an error message.
+             */
             showError("Please enter valid integers.");
         }
     }
 
+    /*
+     * Displays a pop-up error message.
+     */
     private void showError(String message) {
-        JOptionPane.showMessageDialog(this, message, "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+                this,
+                message,
+                "Invalid Input",
+                JOptionPane.ERROR_MESSAGE
+        );
     }
 
+    /*
+     * Returns the validated values.
+     * Used by MainApp to start the simulation.
+     */
     public List<Integer> getValues() {
         return values;
     }

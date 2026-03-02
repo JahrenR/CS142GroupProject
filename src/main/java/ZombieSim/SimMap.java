@@ -10,38 +10,36 @@ import java.awt.*;
  */
 
 public class SimMap {
-    private final int size;
+    private final int size; // class fields that store map w/h and 2D array - grid storage
     private MapTile[][] simMap;
 
     /*-------------------------MapTile Class---------------------------
-     *            Mini Class to handle map tile
+     *            Helper Class to handle map tile
      *            Allowing unit to occupy it
      *             If no units, it will be null
+     *             Represents one square on grid, can't hold more than 1 e.
      */
 
     public static class MapTile {
-
-        private final Point p;
-
-        Entity tileUnit;
+        private final Point p; // tile coordinate
+        Entity tileUnit; // entity currently on the tile
 
         MapTile(Point p) {
             this.p = new Point(p);
-            tileUnit = null;
-        }
+            tileUnit = null;  // copies point so it can't be modified on outside
+        }                     // starts empty
+
         public Entity getEntity() {
             return tileUnit;
         }
         public void setEntity(Entity tileUnit) {
-            this.tileUnit = tileUnit;
+            this.tileUnit = tileUnit; // place/remove entity
         }
         public int getX() {return p.x;}
         public int getY() {return p.y;}
         public Point getPoint() {return new Point(p);}
 
     }
-
-
 
     /*-------------------------Construct---------------------------
      *         creates square 2d array of map Tiles
@@ -52,7 +50,7 @@ public class SimMap {
         createMap();
     }
 
-    private void createMap() {
+    private void createMap() { // builds every tile in the 2d array
         simMap = new MapTile[size][size];
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
@@ -68,38 +66,43 @@ public class SimMap {
      */
 
     public void spawn(Entity unit, Point p) {
-        if(outBounds(p)) {return;}
-        if(getUnit(p) != null) {return;}
-        tileAt(p).setEntity(unit);
-        unit.setPosition(new Point(p));
+        if(outBounds(p)) {return;} // out of bounds = do nothing
+        if(getUnit(p) != null) {return;} // already an entity there = do nothing
+        tileAt(p).setEntity(unit);  // sets entity at a tile
+        unit.setPosition(new Point(p)); // update entity internal position
+        // map and entity need to agree on where the entity is.
     }
+
+
 
     /*-------------------------Move Entity---------------------------
      *          This moves the entity with given direction
-     *       It will return if out bound, or empty/null values
+     *       It will return if out of bound, or empty/null values
      *          It will return if direction given is STAY
      */
 
     public void move(Entity unit, Direction direction) {
-        if(unit == null || direction == null) return;
-        if(direction == Direction.STAY) return;
-        Point from = unit.getLocation();
+        if(unit == null || direction == null) return; // ignore invalid inputs
+        if(direction == Direction.STAY) return; // if direction = stay then do nothing
+        Point from = unit.getLocation();  //read current postion
 
-        Point to = new Point(
+        Point to = new Point(  // computes the destination
                 from.x + direction.dx(),
                 from.y + direction.dy()
         );
 
         if(outBounds(to)) return;
-        if(!isEmpty(to)) return;
+        if(!isEmpty(to)) return;    //if OOB or not empty --> cancel move
 
-        tileAt(from).setEntity(null);
+        tileAt(from).setEntity(null);    // otherwise clear old tile --> set new tile + update entity pos.
         tileAt(to).setEntity(unit);
 
         unit.setPosition(new Point(to));
+        // prevents leaving the map + prevent 2 entities on same tile
     }
 
-    /* -------------------Remove Entity from Map ------------------------------- */
+    // -------------------Removes Entity from Map -------------------------
+
     public void remove(Entity unit) {
         if (unit == null) return;
 
@@ -107,7 +110,7 @@ public class SimMap {
                 if(outBounds(p)) return;
 
                 tileAt(p).setEntity(null);
-
+            // clears the tile
     }
 
     /*-------------------------Helpers---------------------------
@@ -119,10 +122,14 @@ public class SimMap {
         return (p.x < 1 || p.x > size) || (p.y < 1 || p.y > size);
     }
 
+    // checks if a coordinate is outside of the map size
+
     private MapTile tileAt(Point p) {
         int col = p.x-1;
         int row = size-p.y;
         return simMap[row][col];
+
+        // coordinates to array indices
     }
 
     public Entity getUnit(Point p) {
@@ -131,16 +138,16 @@ public class SimMap {
     }
 
     public boolean isEmpty(Point p) {
-        if(outBounds(p)) return false;
-        return tileAt(p).getEntity() == null;
+        if(outBounds(p)) return false; // retirn entity at coord
+        return tileAt(p).getEntity() == null; // tile exists and has no entity
     }
 
-    //returns size of the map
+    //------------------Return map size _______________________//
     public int size(){
         return size;
     }
 
-    //for printing console map
+    //--------------------for printing map to console--------------------
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int y = size; y >=1; y--) {

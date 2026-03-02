@@ -3,30 +3,36 @@ package ZombieSim.Entities;
 import ZombieSim.Direction;
 import ZombieSim.SimModel;
 import ZombieSim.Unit;
+
 import java.util.List;
 
+
 public class Zombie extends Human {
+
+    //constructs with unit type and setting alive condition to false for zombie
     public Zombie() {
         this.type = Unit.ZOMBIE;
         this.alive = false;
     }
+
+    //chases to nearest human
     @Override
     public Direction getMove(SimModel model) {
-        // finds the nearest human
         Entity nearest = nearestHuman(model);
-        // if no target exists, move normally
         if (nearest == null) {return super.getMove(model);}
         return chaseTo(nearest.getLocation(),getLocation());
     }
+
+    //bites human and turns them into zombie
     @Override
     public void interact(SimModel model) {
-        // infects the human if found
         Entity victim = model.seekNeighbor(this, Unit.HUMAN);
         if (victim != null) {
             model.zombify(victim);
         }
     }
-    // searched for the closest human, soldier or general
+
+    //scouts out nearest human unit to this unit
     private Entity nearestHuman(SimModel model) {
         Entity nearest = null;
         int least = Integer.MAX_VALUE;

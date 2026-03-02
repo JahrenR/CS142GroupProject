@@ -1,5 +1,7 @@
 package ZombieSim;
-import ZombieSim.Entities.*;
+
+//Constants for unit type used for unit checkers
+
 public enum Unit {
     HUMAN,
     ZOMBIE,
