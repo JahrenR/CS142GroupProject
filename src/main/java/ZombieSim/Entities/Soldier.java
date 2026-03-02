@@ -8,16 +8,21 @@ import java.awt.*;
 import java.util.List;
 
 public class Soldier extends Human {
+
+    //constructs with a unit type
     public Soldier() {
         this.type = Unit.SOLDIER;
     }
 
+    //chases nearest zombie
     @Override
     public Direction getMove(SimModel model) {
         Entity nearest = nearestZombie(model);
         if(nearest == null) {return super.getMove(model);}
         return chaseTo(nearest.getLocation(), getLocation());
     }
+
+    //kills zombies
     @Override
     public void interact(SimModel model) {
         Entity target = model.seekNeighbor(this, Unit.ZOMBIE);
@@ -26,6 +31,7 @@ public class Soldier extends Human {
         }
     }
 
+    //scouts out nearest zombie unit to this unit
     private Entity nearestZombie(SimModel model) {
         Entity nearest = null;
         int least = Integer.MAX_VALUE;

@@ -8,16 +8,22 @@ import java.util.List;
 
 
 public class Zombie extends Human {
+
+    //constructs with unit type and setting alive condition to false for zombie
     public Zombie() {
         this.type = Unit.ZOMBIE;
         this.alive = false;
     }
+
+    //chases to nearest human
     @Override
     public Direction getMove(SimModel model) {
         Entity nearest = nearestHuman(model);
         if (nearest == null) {return super.getMove(model);}
         return chaseTo(nearest.getLocation(),getLocation());
     }
+
+    //bites human and turns them into zombie
     @Override
     public void interact(SimModel model) {
         Entity victim = model.seekNeighbor(this, Unit.HUMAN);
@@ -25,6 +31,8 @@ public class Zombie extends Human {
             model.zombify(victim);
         }
     }
+
+    //scouts out nearest human unit to this unit
     private Entity nearestHuman(SimModel model) {
         Entity nearest = null;
         int least = Integer.MAX_VALUE;

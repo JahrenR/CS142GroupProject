@@ -42,6 +42,7 @@ public class SimModel {
      *      could be improved if we check intents and collisions beforehand
      *           currently its just moving each unit randomly
      */
+
     public void update() {
         toAdd.clear();
         toRemove.clear();
@@ -61,9 +62,15 @@ public class SimModel {
             entities.add(unit);
         }
     }
+
+    /*---------------------de/spawn requests------------------------
+     *      For handling simultaneous despawn/spawn of units
+     */
+
     public void despawnRequest(Entity entity) {
         if (entity != null) {toRemove.add(entity);}
     }
+
     public void spawnRequest(Entity entity, Point p) {
         if (entity == null) return;
         toAdd.add(entity);
@@ -71,23 +78,26 @@ public class SimModel {
 
     }
 
+    public void despawn(Entity entity) {
+        despawnRequest(entity);
+    }
+
+    /*--------------------Unit Converting methods--------------------------
+    *            zombify converts human to zombie
+    *            recruit converts human to soldier
+    */
+
     public void zombify(Entity entity) {
         Point p = entity.getLocation();
         despawnRequest(entity);
         spawnRequest(new Zombie(), p);
     }
+
     public void recruit(Entity entity) {
         Point p = entity.getLocation();
         despawnRequest(entity);
         spawnRequest(new Soldier(), p);
     }
-
-    public void despawn(Entity entity) {
-        despawnRequest(entity);
-    }
-
-
-    // this ArrayList was added after the addition of the death of an entity in Entity Class
 
     /*-------------------------Entities Spawn Methods----------------------------
      *      With amount it will spawns amount of entities randomly
@@ -183,55 +193,56 @@ public class SimModel {
         entities.add(g);
     }
 
-    //prints the map to console
+    //-----------------------prints the map to console-----------------------
+
     public void printMap(){
         System.out.println(map.toString());
     }
 
-    //getters
+    //--------------------------------getters--------------------------------
+
     public SimMap getMap() {return map;}
     public List<Entity> getEntities() {return entities;}
 
-    //get unit with metadata for gui
+    //--------------------get unit with metadata for gui---------------------
+
     public Entity getUnit(int c, int r) {
         int x = c + 1;
         int y = map.size() - r;
         return map.getUnit(new Point(x, y));
     }
-    public Entity getUnit(int c, int r, Direction direction) {
-        int x = c + 1;
-        int y = map.size() - r;
-        x += direction.dx();
-        y += direction.dy();
-        return map.getUnit(new Point(x, y));
-    }
+
+    //--------------look and returns the neighbor of given unit--------------
+    //need revamping
     public Entity seekNeighbor(Entity unit, Unit type) {
         Point p = unit.getLocation();
 
+        //seeks in order of clockwise after north tile
         Entity n = map.getUnit(new Point(p.x, p.y + 1));
         if (n != null && n.getType() == type) return n;
 
         Entity ne = map.getUnit(new Point(p.x + 1, p.y + 1));
         if (ne != null && ne.getType() == type) return ne;
 
-        Entity nw = map.getUnit(new Point(p.x - 1, p.y + 1));
-        if (nw != null && nw.getType() == type) return nw;
-
-        Entity s = map.getUnit(new Point(p.x, p.y - 1));
-        if (s != null && s.getType() == type) return s;
+        Entity e = map.getUnit(new Point(p.x + 1, p.y));
+        if (e != null && e.getType() == type) return e;
 
         Entity se = map.getUnit(new Point(p.x - 1, p.y - 1));
         if (se != null && se.getType() == type) return se;
 
+        Entity s = map.getUnit(new Point(p.x, p.y - 1));
+        if (s != null && s.getType() == type) return s;
+
         Entity sw = map.getUnit(new Point(p.x + 1, p.y - 1));
         if (sw != null && sw.getType() == type) return sw;
-
-        Entity e = map.getUnit(new Point(p.x + 1, p.y));
-        if (e != null && e.getType() == type) return e;
 
         Entity w = map.getUnit(new Point(p.x - 1, p.y));
         if (w != null && w.getType() == type) return w;
 
+        Entity nw = map.getUnit(new Point(p.x - 1, p.y + 1));
+        if (nw != null && nw.getType() == type) return nw;
+
+        //returns null if not found
         return null;
     }
 

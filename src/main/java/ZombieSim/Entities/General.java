@@ -8,16 +8,20 @@ import java.util.List;
 
 public class General extends Soldier {
 
+    //construct with the unit type
     public General() {
         this.type = Unit.GENERAL;
     }
 
+    //chases nearest human
     @Override
     public Direction getMove(SimModel model) {
         Entity nearest = nearestRecruit(model);
         if(nearest == null) {return super.getMove(model);}
         return chaseTo(nearest.getLocation(), getLocation());
     }
+
+    //turns neighboring human into soldier
     @Override
     public void interact(SimModel model) {
         Entity target = model.seekNeighbor(this, Unit.HUMAN);
@@ -26,6 +30,7 @@ public class General extends Soldier {
         }
     }
 
+    //scouts out which human unit is nearest to this unit
     private Entity nearestRecruit(SimModel model) {
         Entity nearest = null;
         int least = Integer.MAX_VALUE;

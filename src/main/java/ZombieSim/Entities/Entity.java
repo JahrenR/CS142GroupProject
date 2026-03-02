@@ -20,10 +20,12 @@ public abstract class Entity {
 
 
     //--------------Abstract for entities instances------------
+
     public abstract Direction getMove(SimModel model);
     public abstract void interact(SimModel model);
 
     //------It returns random direction with stay being 1/3 chance------
+
     Random rand = new Random();
     Direction randomDirection() {
         Direction[] direction = {
@@ -36,19 +38,22 @@ public abstract class Entity {
         return direction[rand.nextInt(direction.length)];
     }
     //------------sets this entity to new position----------------------
+
     public void setPosition(Point p) {
         this.p = new Point(p);
     }
 
-    //--------------------------getters---------------------------------
+    //--------------------------getters--------------------------------
+
     public int getX() {return p.x;}
     public int getY() {return p.y;}
     public Point getLocation() {return new Point(p);}
     public Unit getType(){return type;}
     public boolean isAlive() {return alive;}
+
     //----------------------------Chaser Helpers--------------------------
 
-    public static Direction chaseTo(Point to, Point from) {
+    public Direction chaseTo(Point to, Point from) {
         int dx = Integer.compare(to.x, from.x);
         int dy = Integer.compare(to.y, from.y);
 
@@ -68,9 +73,10 @@ public abstract class Entity {
                 return Direction.SOUTH;
             }
         }
-        return Direction.STAY;
+        return randomDirection();
     }
 
+    // the manhattan math that helps determine which direction to go for chasing
     public int manhattan(Point a, Point b){
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
