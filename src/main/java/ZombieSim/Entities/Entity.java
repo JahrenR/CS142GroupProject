@@ -10,7 +10,7 @@ import java.util.Random;
 
 public abstract class Entity {
     // location of the entity on the map
-    private Point p;
+    protected Point p;
     // type of entity
     protected Unit type;
     // weather the entity is alive or not
@@ -24,6 +24,8 @@ public abstract class Entity {
     public abstract Direction getMove(SimModel model);
     // for the different interactions
     public abstract void interact(SimModel model);
+
+
 
     //It returns random direction with stay being 1/3 chance, given by Human
 
@@ -51,6 +53,7 @@ public abstract class Entity {
     public Point getLocation() {return new Point(p);}
     public Unit getType(){return type;}
     public boolean isAlive() {return alive;}
+    public boolean isRecruitable() {return true;}
 
     //----------------------------Chaser Helpers--------------------------
 
@@ -77,10 +80,11 @@ public abstract class Entity {
         return randomDirection();
     }
 
-    // the manhattan math that helps determine which direction to go for chasing
+    // the manhattan math that helps determine which closest unit
     public int manhattan(Point a, Point b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
+
 }
 // the entity class is the base for all the entities in the project
 // every entity has stored a point, unit type, and if the entity is alive or not

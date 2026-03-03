@@ -21,7 +21,7 @@ import java.awt.*;
  *   - SimMap = storage
  *   - SimGUI = visualization
  */
-public class SimGUI extends JFrame {
+public class TempGUI extends JFrame {
 
     /*
      * ANIMATION_SPEED controls how fast the simulation updates.
@@ -66,7 +66,7 @@ public class SimGUI extends JFrame {
      * Takes a SimModel as input.
      * Builds the frame and starts animation.
      */
-    public SimGUI(SimModel model) {
+    public TempGUI(SimModel model) {
         this.model = model;
         size = model.getMap().size();
 

@@ -13,6 +13,7 @@ public class Zombie extends Human {
     public Zombie() {
         this.type = Unit.ZOMBIE;
         this.alive = false;
+        this.isRecruitable = false;
     }
 
     //chases to nearest human
@@ -27,6 +28,7 @@ public class Zombie extends Human {
     @Override
     public void interact(SimModel model) {
         Entity victim = model.seekNeighbor(this, Unit.HUMAN);
+
         if (victim != null) {
             model.zombify(victim);
         }
@@ -39,7 +41,7 @@ public class Zombie extends Human {
         List<Entity> entities = model.getEntities();
         for (Entity entity : entities) {
             Unit type = entity.getType();
-            if (type == Unit.HUMAN || type == Unit.SOLDIER || type == Unit.GENERAL) {
+            if (type == Unit.HUMAN) {
                 int distance = manhattan(getLocation(), entity.getLocation());
                 if (distance < least) {
                     least = distance;

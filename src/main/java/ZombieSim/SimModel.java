@@ -244,6 +244,36 @@ public class SimModel {
 
         //returns null if not found
         return null;
+    }public Entity seekNeighbor(Entity unit, Unit type, int i) {
+        Point p = unit.getLocation();
+
+        //seeks in order of clockwise after north tile
+        Entity n = map.getUnit(new Point(p.x, p.y + i));
+        if (n != null && n.getType() == type) return n;
+
+        Entity ne = map.getUnit(new Point(p.x + i, p.y + i));
+        if (ne != null && ne.getType() == type) return ne;
+
+        Entity e = map.getUnit(new Point(p.x + i, p.y));
+        if (e != null && e.getType() == type) return e;
+
+        Entity se = map.getUnit(new Point(p.x - i, p.y - i));
+        if (se != null && se.getType() == type) return se;
+
+        Entity s = map.getUnit(new Point(p.x, p.y - 1));
+        if (s != null && s.getType() == type) return s;
+
+        Entity sw = map.getUnit(new Point(p.x + i, p.y - i));
+        if (sw != null && sw.getType() == type) return sw;
+
+        Entity w = map.getUnit(new Point(p.x - i, p.y));
+        if (w != null && w.getType() == type) return w;
+
+        Entity nw = map.getUnit(new Point(p.x - i, p.y + i));
+        if (nw != null && nw.getType() == type) return nw;
+
+        //returns null if not found
+        return null;
     }
 
 

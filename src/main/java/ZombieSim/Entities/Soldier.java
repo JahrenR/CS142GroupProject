@@ -11,7 +11,7 @@ public class Soldier extends Human {
 
     //constructs with a unit type
     public Soldier() {
-        this.type = Unit.SOLDIER;
+        this.isRecruitable = false;
     }
 
     //chases nearest zombie
@@ -25,7 +25,7 @@ public class Soldier extends Human {
     //kills zombies
     @Override
     public void interact(SimModel model) {
-        Entity target = model.seekNeighbor(this, Unit.ZOMBIE);
+        Entity target = model.seekNeighbor(this, Unit.ZOMBIE, 2);
         if (target != null) {
             model.despawn(target);
         }

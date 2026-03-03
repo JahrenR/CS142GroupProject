@@ -10,7 +10,7 @@ public class General extends Soldier {
 
     //construct with the unit type
     public General() {
-        this.type = Unit.GENERAL;
+        this.isRecruitable = false;
     }
 
     //chases nearest human
@@ -36,7 +36,7 @@ public class General extends Soldier {
         int least = Integer.MAX_VALUE;
         List<Entity> entities = model.getEntities();
         for (Entity entity : entities) {
-            if (entity.getType() == Unit.HUMAN) {
+            if (entity.isRecruitable()) {
                 int distance = manhattan(getLocation(), entity.getLocation());
                 if (distance < least) {
                     least = distance;

@@ -9,7 +9,7 @@ public class Human extends Entity {
     //for randomly walking
     int steps;
     Direction direction;
-
+    boolean isRecruitable = true;
     //constructs with steps and randomized N/S/E/W direction
     public Human(){
         steps = 0;

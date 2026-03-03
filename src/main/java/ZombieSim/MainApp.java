@@ -22,6 +22,6 @@ public class MainApp {
                 list.get(3),
                 list.get(4));
 
-        new SimGUI(model);
+        new TempGUI(model);
     }
 }
