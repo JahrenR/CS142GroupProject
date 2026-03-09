@@ -128,8 +128,6 @@ public class TempGUI extends JFrame {
      */
     private void buildGrid() {
 
-        setLayout(new BorderLayout());
-
         gridPanel = new JPanel(new GridLayout(size, size));
 
         gridMap = new JPanel[size][size];
