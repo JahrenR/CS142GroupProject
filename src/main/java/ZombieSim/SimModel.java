@@ -113,8 +113,8 @@ public class SimModel {
         //spawns zombies randomly in the map
         for(int i = 0; i < amount; i++){
             do {//repeat if tile is occupied
-                int x = rand.nextInt(map.size()) + 1;
-                int y = rand.nextInt(map.size()) + 1;
+                int x = rand.nextInt(map.size());
+                int y = rand.nextInt(map.size());
                 p.setLocation(x, y);
             } while (map.getUnit(p) != null);
 
@@ -134,8 +134,8 @@ public class SimModel {
         Point p = new Point();
         for(int i = 0; i < amount; i++){
             do {
-                int x = rand.nextInt(map.size()) + 1;
-                int y = rand.nextInt(map.size()) + 1;
+                int x = rand.nextInt(map.size());
+                int y = rand.nextInt(map.size());
                 p.setLocation(x, y);
             } while (map.getUnit(p) != null);
 
@@ -155,8 +155,8 @@ public class SimModel {
         Point p = new Point();
         for(int i = 0; i < amount; i++){
             do {
-                int x = rand.nextInt(map.size()) + 1;
-                int y = rand.nextInt(map.size()) + 1;
+                int x = rand.nextInt(map.size());
+                int y = rand.nextInt(map.size());
                 p.setLocation(x, y);
             }  while (map.getUnit(p) != null);
 
@@ -176,8 +176,8 @@ public class SimModel {
         Point p = new Point();
         for(int i = 0; i < amount; i++){
             do {
-                int x = rand.nextInt(map.size()) + 1;
-                int y = rand.nextInt(map.size()) + 1;
+                int x = rand.nextInt(map.size());
+                int y = rand.nextInt(map.size());
                 p.setLocation(x, y);
             }  while (map.getUnit(p) != null);
 
