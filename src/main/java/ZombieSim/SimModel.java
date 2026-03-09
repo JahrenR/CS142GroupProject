@@ -286,6 +286,7 @@ public class SimModel {
         return count;
     }
 
+
     public int countSoldiers() {
         int count = 0;
         for (Entity e : entities) {
@@ -309,9 +310,7 @@ public class SimModel {
     public int countZombies() {
         int count = 0;
         for (Entity e : entities) {
-            if (e instanceof Zombie) {
-                count++;
-            }
+            if (e instanceof Zombie) count++;
         }
         return count;
     }
