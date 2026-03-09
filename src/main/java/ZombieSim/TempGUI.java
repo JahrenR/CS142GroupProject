@@ -162,12 +162,22 @@ public class TempGUI extends JFrame {
     }
 
     private void updateStats() {
+        int humans = 0, zombies = 0, soldiers = 0, generals = 0;
 
-        humanLabel.setText("Humans: " + model.countHumans());
-        zombieLabel.setText("Zombies: " + model.countZombies());
-        soldierLabel.setText("Soldiers: " + model.countSoldiers());
-        generalLabel.setText("Generals: " + model.countGenerals());
+        for (int r = 0; r < model.getMap().size(); r++) {
+            for (int c = 0; c < model.getMap().size(); c++) {
+                Entity e = model.getUnit(c, r);
+                if (e instanceof Human) humans++;
+                else if (e instanceof Zombie) zombies++;
+                else if (e instanceof General) generals++;
+                else if (e instanceof Soldier) soldiers++;
+            }
+        }
 
+        humanLabel.setText("Humans: " + humans);
+        zombieLabel.setText("Zombies: " + zombies);
+        soldierLabel.setText("Soldiers: " + soldiers);
+        generalLabel.setText("Generals: " + generals);
     }
 
     private JPanel buildStatsPanel() {
