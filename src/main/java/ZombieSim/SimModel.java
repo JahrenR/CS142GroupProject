@@ -276,6 +276,47 @@ public class SimModel {
         return null;
     }
 
+    // - Entities Counters -
+
+    public int countHumans() {
+        int count = 0;
+        for (Entity e : entities) {
+            if (e instanceof Human && !(e instanceof Soldier)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int countSoldiers() {
+        int count = 0;
+        for (Entity e : entities) {
+            if (e instanceof Soldier && !(e instanceof General)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int countGenerals() {
+        int count = 0;
+        for (Entity e : entities) {
+            if (e instanceof General) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int countZombies() {
+        int count = 0;
+        for (Entity e : entities) {
+            if (e instanceof Zombie) {
+                count++;
+            }
+        }
+        return count;
+    }
 
 
 }

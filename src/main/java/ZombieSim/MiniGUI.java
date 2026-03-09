@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * ========================= MiniGUI =========================
  *
  * This class creates the setup popup window that appears
  * before the simulation starts.

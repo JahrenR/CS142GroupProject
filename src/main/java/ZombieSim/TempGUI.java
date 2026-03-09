@@ -40,6 +40,11 @@ public class TempGUI extends JFrame {
      */
     private final int size;
 
+    JLabel humanLabel = new JLabel();
+    JLabel zombieLabel = new JLabel();
+    JLabel soldierLabel = new JLabel();
+    JLabel generalLabel = new JLabel();
+
     /*
      * Reference to the simulation model.
      * The GUI reads data from this.
@@ -87,6 +92,7 @@ public class TempGUI extends JFrame {
     public void update(){
         model.update();
         paintGrid();
+        updateStats();
     }
 
     /*
@@ -100,6 +106,9 @@ public class TempGUI extends JFrame {
 
         // Close entire program when window closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // creates a window for the stats on the right
+        add(buildStatsPanel(), BorderLayout.EAST);
 
         // Build the grid layout
         buildGrid();
@@ -150,6 +159,30 @@ public class TempGUI extends JFrame {
 
         add(gridPanel, BorderLayout.CENTER);
         pack();
+    }
+
+    private void updateStats() {
+
+        humanLabel.setText("Humans: " + model.countHumans());
+        zombieLabel.setText("Zombies: " + model.countZombies());
+        soldierLabel.setText("Soldiers: " + model.countSoldiers());
+        generalLabel.setText("Generals: " + model.countGenerals());
+
+    }
+
+    private JPanel buildStatsPanel() {
+
+        JPanel stats = new JPanel();
+        stats.setLayout(new GridLayout(4,1));
+
+        stats.add(humanLabel);
+        stats.add(zombieLabel);
+        stats.add(soldierLabel);
+        stats.add(generalLabel);
+
+        updateStats();
+
+        return stats;
     }
 
     /*
