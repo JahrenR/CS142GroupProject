@@ -112,7 +112,7 @@ public class TempGUI extends JFrame {
         // creates a window for the stats on the right
         add(buildStatsPanel(), BorderLayout.EAST);
 
-        // Build the grid layout
+        // Builds the grid layout
         buildGrid();
 
         this.setResizable(false);
