@@ -107,6 +107,8 @@ public class TempGUI extends JFrame {
         // Close entire program when window closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        setLayout(new BorderLayout());
+
         // creates a window for the stats on the right
         add(buildStatsPanel(), BorderLayout.EAST);
 
