@@ -163,10 +163,11 @@ public class TempGUI extends JFrame {
 
     private void updateStats() {
         int humans = 0, zombies = 0, soldiers = 0, generals = 0;
+        SimMap map = model.getMap();
 
-        for (int r = 0; r < model.getMap().size(); r++) {
-            for (int c = 0; c < model.getMap().size(); c++) {
-                Entity e = model.getUnit(c, r);
+        for (int x = 1; x <= map.size(); x++) {       // 1-based
+            for (int y = 1; y <= map.size(); y++) {   // 1-based
+                Entity e = map.getUnit(new Point(x, y));
                 if (e instanceof Human) humans++;
                 else if (e instanceof Zombie) zombies++;
                 else if (e instanceof General) generals++;
