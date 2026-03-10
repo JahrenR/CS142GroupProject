@@ -1,7 +1,5 @@
 package ZombieSim;
 
-import ZombieSim.Entities.*;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -200,13 +198,19 @@ public class TempGUI extends JFrame {
     public void paintGrid(){
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
+
                 Entity unit = model.getUnit(c,r);
-                switch (unit) {
-                    case General _ -> gridMap[r][c].setBackground(Color.RED);
-                    case Soldier _ -> gridMap[r][c].setBackground(Color.BLACK);
-                    case Zombie _ -> gridMap[r][c].setBackground(new Color(111, 161, 25, 255));
-                    case Human _ -> gridMap[r][c].setBackground(new Color(195, 149, 130));
-                    case null, default -> gridMap[r][c].setBackground(Color.WHITE);
+
+                if (unit == null) {
+                    gridMap[r][c].setBackground(Color.WHITE);
+                    continue;
+                }
+
+                switch (unit.getType()) {
+                    case GENERAL -> gridMap[r][c].setBackground(Color.RED);
+                    case SOLDIER -> gridMap[r][c].setBackground(Color.BLACK);
+                    case ZOMBIE -> gridMap[r][c].setBackground(new Color(111, 161, 25, 255));
+                    case HUMAN -> gridMap[r][c].setBackground(new Color(195, 149, 130));
                 }
             }
         }

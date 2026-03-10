@@ -5,4 +5,6 @@ package ZombieSim;
 public enum Unit {
     HUMAN,
     ZOMBIE,
+    SOLDIER,
+    GENERAL
 }

@@ -1,7 +1,5 @@
 package ZombieSim;
 
-import ZombieSim.Entities.*;
-
 import java.awt.*;
 
 /*-------------------------The Map of Simulation---------------------------
