@@ -281,7 +281,7 @@ public class SimModel {
     public int countHumans() {
         int count = 0;
         for (Entity e : entities) {
-            if (e instanceof Human) count++;
+            if (e instanceof Human && !(e instanceof Zombie)) count++;
         }
         return count;
     }
