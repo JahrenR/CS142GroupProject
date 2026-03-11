@@ -1,6 +1,8 @@
 package ZombieSim;
 
 import java.awt.*;
+import ZombieSim.tiles.MapTile;
+import ZombieSim.tiles.GrassTile;
 
 /*-------------------------The Map of Simulation---------------------------
  *          with the given size, it will make square map of tiles
@@ -18,6 +20,7 @@ public class SimMap {
      *             Represents one square on grid, can't hold more than 1 e.
      */
 
+    /*
     public static class MapTile {
         private final Point p; // tile coordinate
         Entity tileUnit; // entity currently on the tile
