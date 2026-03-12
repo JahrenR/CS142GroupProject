@@ -55,7 +55,8 @@ public class SimMap {
         simMap = new MapTile[size][size];
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-                simMap[row][col] = new MapTile(new Point(col + 1, size - row));
+                Point p = new Point(col + 1, size - row);
+                simMap[row][col] = new GrassTile(p);
             }
         }
     }
@@ -92,7 +93,9 @@ public class SimMap {
                 from.y + direction.dy()
         );
 
-        if(outBounds(to)) return;
+//        if(outBounds(to)) return;
+        MapTile target = tileAt(to);
+        if (!target.canEnter(unit)) return;
         if(!isEmpty(to)) return;    //if OOB or not empty --> cancel move
 
         tileAt(from).setEntity(null);    // otherwise clear old tile --> set new tile + update entity pos.
