@@ -93,7 +93,7 @@ public class SimMap {
                 from.y + direction.dy()
         );
 
-//        if(outBounds(to)) return;
+        if(outBounds(to)) return;
         MapTile target = tileAt(to);
         if (!target.canEnter(unit)) return;
         if(!isEmpty(to)) return;    //if OOB or not empty --> cancel move
