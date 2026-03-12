@@ -1,6 +1,5 @@
 package ZombieSim;
 
-import ZombieSim.Entities.*;
 import ZombieSim.tiles.*;
 import ZombieSim.Unit;
 import ZombieSim.Entity;
@@ -68,23 +67,31 @@ public class MapLoader {
 
                 // Entity spawning
 
+                Entity e = null;
+
                 switch(symbol) {
 
                     case 'H':
-                        entities.add(new Entity(Unit.HUMAN, Point p));
+                        e = new Entity(Unit.HUMAN);
                         break;
 
                     case 'Z':
-                        entities.add(new Entity(Unit.ZOMBIE, p));
+                        e = new Entity(Unit.ZOMBIE);
                         break;
 
                     case 'S':
-                        entities.add(new Entity(Unit.SOLDIER, p));
+                        e = new Entity(Unit.SOLDIER);
                         break;
 
                     case 'X':
-                        entities.add(new Entity(Unit.GENERAL, p));
+                        e = new Entity(Unit.GENERAL);
                         break;
+                }
+
+                if (e != null) {
+                    e.setPosition(p);   // set the location
+                    entities.add(e);    // add to simulation
+                    tile.setEntity(e);  // place on tile
                 }
             }
         }
