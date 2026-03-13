@@ -42,6 +42,7 @@ public class TempGUI extends JFrame {
     JLabel zombieLabel = new JLabel();
     JLabel soldierLabel = new JLabel();
     JLabel generalLabel = new JLabel();
+    JButton pauseButton = new JButton("Pause");
 
     /*
      * Reference to the simulation model.
@@ -171,6 +172,12 @@ public class TempGUI extends JFrame {
 
         JPanel stats = new JPanel();
         stats.setLayout(new GridLayout(4,1));
+        pauseButton.addActionListener(e -> {
+            if (timer.isRunning())
+                timer.stop();
+            else
+                timer.start();
+        });
 
         stats.add(humanLabel);
         stats.add(zombieLabel);
