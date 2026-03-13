@@ -1,6 +1,8 @@
 package ZombieSim;
 
 import ZombieSim.tiles.MapTile;
+import ZombieSim.tiles.SafeZoneTile;
+import ZombieSim.tiles.WallTile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,6 +59,7 @@ public class TempGUI extends JFrame {
      */
     JPanel gridPanel = new JPanel();
     JPanel[][] gridMap;
+    JLabel[][] entityIcons;
 
     /*
      * Swing Timer:
@@ -148,7 +151,7 @@ public class TempGUI extends JFrame {
             for (int c = 0; c < size; c++) {
 
                 JPanel p = new JPanel();
-                p.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                //p.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
                 gridMap[r][c] = p;
                 gridPanel.add(p);
@@ -174,19 +177,22 @@ public class TempGUI extends JFrame {
 
         JPanel stats = new JPanel();
         stats.setLayout(new GridLayout(5,1));
-        JButton pauseButton = new JButton("Pause");
+
+        JButton pauseButton = new JButton("Pause/Play");
 
         pauseButton.addActionListener(e -> {
-            if (timer.isRunning())
+            if (timer.isRunning()) {
                 timer.stop();
-            else
+            } else {
                 timer.start();
+            }
         });
 
         stats.add(humanLabel);
         stats.add(zombieLabel);
         stats.add(soldierLabel);
         stats.add(generalLabel);
+        stats.add(pauseButton);
 
         updateStats();
 
@@ -210,11 +216,21 @@ public class TempGUI extends JFrame {
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
 
-                MapTile tile = model.getTile(c, r);
+            //    MapTile tile = model.getTile(c, r);
                 Entity unit = model.getUnit(c,r);
 
-                gridMap[r][c].setBackground(Color.WHITE);
+//                if (tile instanceof WallTile) {
+//                    gridMap[r][c].setBackground(Color.DARK_GRAY);
+//                } else if (tile instanceof SafeZoneTile) {
+//                    gridMap[r][c].setBackground(Color.CYAN);
+//                } else {
+//                    gridMap[r][c].setBackground(new Color(80, 170, 80));
+//                }
+
+
                 if (unit == null) {
+                    gridMap[r][c].setBackground(Color.WHITE);
+                    // gridMap[r][c].setBackground(new Color(80, 170, 80));
                     continue;
                 }
 
