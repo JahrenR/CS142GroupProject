@@ -59,6 +59,10 @@ public class MapLoader {
                         tile = new SafeZoneTile(p);
                         break;
 
+                    case 'A':
+                        tile = new WaterTile(p);
+                        break;
+
                     default:
                         tile = new GrassTile(p);
                 }
