@@ -151,6 +151,11 @@ public class SimMap {
         return size;
     }
 
+    public MapTile getTile(Point p) {
+        if (outBounds(p)) return null;
+        return tileAt(p);
+    }
+
     //--------------------for printing map to console--------------------
     public String toString() {
         StringBuilder sb = new StringBuilder();

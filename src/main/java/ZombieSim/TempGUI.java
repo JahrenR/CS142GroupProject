@@ -1,5 +1,7 @@
 package ZombieSim;
 
+import ZombieSim.tiles.MapTile;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -42,7 +44,6 @@ public class TempGUI extends JFrame {
     JLabel zombieLabel = new JLabel();
     JLabel soldierLabel = new JLabel();
     JLabel generalLabel = new JLabel();
-    JButton pauseButton = new JButton("Pause");
 
     /*
      * Reference to the simulation model.
@@ -147,6 +148,7 @@ public class TempGUI extends JFrame {
             for (int c = 0; c < size; c++) {
 
                 JPanel p = new JPanel();
+                p.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
                 gridMap[r][c] = p;
                 gridPanel.add(p);
@@ -171,7 +173,9 @@ public class TempGUI extends JFrame {
     private JPanel buildStatsPanel() {
 
         JPanel stats = new JPanel();
-        stats.setLayout(new GridLayout(4,1));
+        stats.setLayout(new GridLayout(5,1));
+        JButton pauseButton = new JButton("Pause");
+
         pauseButton.addActionListener(e -> {
             if (timer.isRunning())
                 timer.stop();
@@ -206,10 +210,11 @@ public class TempGUI extends JFrame {
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
 
+                MapTile tile = model.getTile(c, r);
                 Entity unit = model.getUnit(c,r);
 
+                gridMap[r][c].setBackground(Color.WHITE);
                 if (unit == null) {
-                    gridMap[r][c].setBackground(Color.WHITE);
                     continue;
                 }
 

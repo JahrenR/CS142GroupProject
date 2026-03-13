@@ -1,5 +1,7 @@
 package ZombieSim;
 
+import ZombieSim.tiles.MapTile;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -275,6 +277,11 @@ public class SimModel {
             }
         }
         return count;
+    }
+    public MapTile getTile(int c, int r) {
+        int x = c + 1;
+        int y = map.size() - r;
+        return map.getTile(new Point(x, y));
     }
 
 
