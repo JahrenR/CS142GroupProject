@@ -35,10 +35,10 @@ public class MiniGUI extends JDialog {
      * can run immediately if the user doesn't change anything.
      */
     private JTextField sizeField = new JTextField("30");
-    private JTextField civilianField = new JTextField("100");
-    private JTextField zombieField = new JTextField("1");
-    private JTextField soldierField = new JTextField("0");
-    private JTextField generalField = new JTextField("1");
+    private JTextField civilianField = new JTextField("0");
+    private JTextField zombieField = new JTextField("10");
+    private JTextField soldierField = new JTextField("10");
+    private JTextField generalField = new JTextField("0");
 
     /*
      * This list stores the validated values.

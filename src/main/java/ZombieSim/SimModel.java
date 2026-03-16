@@ -203,35 +203,23 @@ public class SimModel {
     public Entity seekNeighbor(Entity unit, Unit... types) {
         Point p = unit.getLocation();
 
-        Point[] offsets = {
-                new Point(0, 1),    // N
-                new Point(1, 1),    // NE
-                new Point(1, 0),    // E
-                new Point(1, -1),   // SE
-                new Point(0, -1),   // S
-                new Point(-1, -1),  // SW
-                new Point(-1, 0),   // W
-                new Point(-1, 1)    // NW
+        int[][] offsets = {
+                {0, 1}, {1, 1}, {1, 0}, {1, -1},
+                {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}
         };
 
-        for (Point offset : offsets) {
-            Point neighborPoint = new Point(p.x + offset.x, p.y + offset.y);
-            Entity neighbor = map.getUnit(neighborPoint);
-
-            if (neighbor != null && matchesType(neighbor, types)) {
-                return neighbor;
+        for (int[] offset : offsets) {
+            Entity neighbor = map.getUnit(new Point(p.x + offset[0], p.y + offset[1]));
+            if (neighbor != null) {
+                for (Unit type : types) {
+                    if (neighbor.getType() == type) {
+                        return neighbor;
+                    }
+                }
             }
         }
 
         return null;
-    }
-    private boolean matchesType(Entity entity, Unit... types) {
-        for (Unit type : types) {
-            if (entity.getType() == type) {
-                return true;
-            }
-        }
-        return false;
     }
 
 
