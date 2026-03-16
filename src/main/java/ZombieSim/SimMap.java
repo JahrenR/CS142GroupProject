@@ -11,7 +11,7 @@ import ZombieSim.tiles.GrassTile;
 
 public class SimMap {
     private final int size; // class fields that store map w/h and 2D array - grid storage
-    private MapTile[][] simMap;
+    MapTile[][] simMap;
 
     /*-------------------------MapTile Class---------------------------
      *            Helper Class to handle map tile

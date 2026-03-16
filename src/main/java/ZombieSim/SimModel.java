@@ -272,5 +272,25 @@ public class SimModel {
         return map.getTile(new Point(x, y));
     }
 
+    public SimModel(String filename) {
+
+        entities = new ArrayList<>();
+
+        MapTile[][] loadedMap = MapLoader.loadMap(filename, entities);
+
+        int size = loadedMap.length;
+
+        map = new SimMap(size);
+
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+
+                MapTile tile = loadedMap[r][c];
+                map.simMap[r][c] = tile;
+
+            }
+        }
+    }
+
 
 }

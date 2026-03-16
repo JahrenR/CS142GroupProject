@@ -2,6 +2,7 @@ package ZombieSim;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class MiniGUI extends JDialog {
     private JTextField zombieField = new JTextField("10");
     private JTextField soldierField = new JTextField("10");
     private JTextField generalField = new JTextField("0");
+    private String mapFile = null;
 
     /*
      * This list stores the validated values.
@@ -104,10 +106,16 @@ public class MiniGUI extends JDialog {
         JButton submitButton = new JButton("Start Simulation");
 
         submitButton.addActionListener(e -> validateAndSubmit());
+        JButton loadButton = new JButton("Load Map File");
+        loadButton.addActionListener(e -> chooseMapFile());
 
         // Assemble layout
         mainPanel.add(inputPanel, BorderLayout.CENTER);
-        mainPanel.add(submitButton, BorderLayout.SOUTH);
+        JPanel buttonPanel = new JPanel(new GridLayout(1,2,10,10));
+        buttonPanel.add(submitButton);
+        buttonPanel.add(loadButton);
+
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
 
@@ -198,6 +206,25 @@ public class MiniGUI extends JDialog {
              * show an error message.
              */
             showError("Please enter valid integers.");
+        }
+    }
+
+    public String getMapFile() {
+        return mapFile;
+    }
+
+    private void chooseMapFile() {
+
+        JFileChooser chooser = new JFileChooser();
+        int result = chooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+
+            File selectedFile = chooser.getSelectedFile();
+
+            mapFile = selectedFile.getAbsolutePath();
+
+            dispose(); // close the setup window
         }
     }
 
