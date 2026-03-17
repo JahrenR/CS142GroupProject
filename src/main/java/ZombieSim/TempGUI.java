@@ -212,33 +212,23 @@ public class TempGUI extends JFrame {
      * only what type they are.
      */
     //---------------Paints tiles based on units on the tile----------------------
-    public void paintGrid(){
+    public void paintGrid() {
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
+                MapTile tile = model.getTile(c, r);
+                Entity unit = model.getUnit(c, r);
 
-            //    MapTile tile = model.getTile(c, r);
-                Entity unit = model.getUnit(c,r);
+                // paint terrain first
+                gridMap[r][c].setBackground(tile.getColor());
 
-//                if (tile instanceof WallTile) {
-//                    gridMap[r][c].setBackground(Color.DARK_GRAY);
-//                } else if (tile instanceof SafeZoneTile) {
-//                    gridMap[r][c].setBackground(Color.CYAN);
-//                } else {
-//                    gridMap[r][c].setBackground(new Color(80, 170, 80));
-//                }
-
-
-                if (unit == null) {
-                    gridMap[r][c].setBackground(Color.WHITE);
-                    // gridMap[r][c].setBackground(new Color(80, 170, 80));
-                    continue;
-                }
-
-                switch (unit.getType()) {
-                    case GENERAL -> gridMap[r][c].setBackground(Color.RED);
-                    case SOLDIER -> gridMap[r][c].setBackground(Color.BLACK);
-                    case ZOMBIE -> gridMap[r][c].setBackground(new Color(111, 161, 25, 255));
-                    case HUMAN -> gridMap[r][c].setBackground(new Color(195, 149, 130));
+                // then override color if a unit is standing there
+                if (unit != null) {
+                    switch (unit.getType()) {
+                        case GENERAL -> gridMap[r][c].setBackground(Color.GRAY);
+                        case SOLDIER -> gridMap[r][c].setBackground(Color.BLACK);
+                        case ZOMBIE -> gridMap[r][c].setBackground(new Color(227, 13, 13, 255));
+                        case HUMAN -> gridMap[r][c].setBackground(new Color(195, 149, 130));
+                    }
                 }
             }
         }
