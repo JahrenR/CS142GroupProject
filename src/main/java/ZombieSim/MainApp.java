@@ -32,6 +32,6 @@ public class MainApp {
             );
         }
 
-        new TempGUI(model);
+        new SimGUI(model);
     }
 }

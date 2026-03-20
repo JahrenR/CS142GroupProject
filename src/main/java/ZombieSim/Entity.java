@@ -15,6 +15,13 @@ public class Entity {
     };
 
     public Direction getMove(SimModel model) {
+        // humans move at half speed in water
+        if (type != Unit.ZOMBIE && model.isWater(getLocation())) {
+            if (model.getTicks() % 2 == 1) {
+                return Direction.STAY;
+            }
+        }
+
         return switch (type) {
             case HUMAN -> baseMove(model);
             case ZOMBIE -> zombieMove(model);

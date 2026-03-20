@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import ZombieSim.tiles.WaterTile;
 
 /*-------------------------The Zombie Apocalypse Model-------------------------
  *      Start by constructs map with size and spawns entities on the map
@@ -14,7 +15,7 @@ import java.util.Random;
 
 public class SimModel {
     List<Entity> entities = new ArrayList<>();
-
+    private int ticks = 0;
     SimMap map;
 
     /*-------------------------Construct---------------------------
@@ -41,11 +42,20 @@ public class SimModel {
      */
 
     public void update() {
+        ticks++;
+
         // move phase
-        for (Entity unit : entities) {
+        for (Entity unit : new ArrayList<>(entities)) {
+            if (!entities.contains(unit)) {
+                continue;
+            }
+
             Direction direction = unit.getMove(this);
             map.move(unit, direction);
         }
+
+        // zombies drown after movement
+        applyWaterEffects();
 
         // interaction phase
         for (Entity unit : new ArrayList<>(entities)) {
@@ -288,6 +298,50 @@ public class SimModel {
                 MapTile tile = loadedMap[r][c];
                 map.simMap[r][c] = tile;
 
+            }
+        }
+    }
+
+
+    //---------------------Game End Condition Helpers---------------------
+
+
+
+    public int getTicks() {return ticks;}
+
+    public boolean isGameOver() {
+        return zombiesEliminated() || allSurvivorsInfected();
+    }
+
+    public boolean zombiesEliminated() {
+        return countZombies() == 0;
+    }
+
+    public boolean allSurvivorsInfected() {
+        return countHumans() == 0
+                && countSoldiers() == 0
+                && countGenerals() == 0
+                && countZombies() > 0;
+    }
+
+    public String getEndMessage() {
+        if (zombiesEliminated()) {
+            return "Humans won! All zombies were eliminated.";
+        }
+        if (allSurvivorsInfected()) {
+            return "Zombies won! All humans became zombies.";
+        }
+        return "";
+    }
+
+    public boolean isWater(Point p) {
+        return map.getTile(p) instanceof WaterTile;
+    }
+
+    private void applyWaterEffects() {
+        for (Entity unit : new ArrayList<>(entities)) {
+            if (unit.getType() == Unit.ZOMBIE && isWater(unit.getLocation())) {
+                removeEntity(unit);
             }
         }
     }
