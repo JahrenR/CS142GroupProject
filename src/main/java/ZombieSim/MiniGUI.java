@@ -3,63 +3,44 @@ package ZombieSim;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-/*
- *
- * This class creates the setup popup window that appears
- * before the simulation starts.
- *
- * It allows the user to input:
- *   - Map size
- *   - Number of civilians
- *   - Number of zombies
- *   - Number of soldiers
- *   - Number of generals
- *
- * This class handles:
- *   - Collecting user input
- *   - Validating the input
- *   - Returning the values to the main program
- *
- * It does NOT run the simulation.
- * It only gathers configuration settings.
+/**
+ * MiniGUI represents the setup dialog for the Zombie Simulation.
+ * <p>
+ * It allows the user to configure:
+ * <ul>
+ *     <li>Map size</li>
+ *     <li>Number of civilians</li>
+ *     <li>Number of zombies</li>
+ *     <li>Number of soldiers</li>
+ *     <li>Number of generals</li>
+ * </ul>
+ * <p>
+ * The class handles input validation, loading and saving configurations,
+ * and returning values to the main simulation application.
  */
+
 public class MiniGUI extends JDialog {
 
-    /*
-     * These are text fields that allow the user
-     * to type in numeric values.
-     *
-     * We provide default values so the simulation
-     * can run immediately if the user doesn't change anything.
-     */
+
     private JTextField sizeField = new JTextField("30");
     private JTextField civilianField = new JTextField("20");
     private JTextField zombieField = new JTextField("2");
     private JTextField soldierField = new JTextField("2");
     private JTextField generalField = new JTextField("1");
-    private String mapFile = null;
 
-    /*
-     * This list stores the validated values.
-     *
-     * It starts as null.
-     * If it remains null, it means the user closed the window
-     * without successfully submitting.
-     *
-     * If it is NOT null, then the input was valid
-     * and the simulation can start.
-     */
+    private String mapFile = null;
     private List<Integer> values = null;
 
-    /*
-     * Constructor
-     *
-     * Builds the popup window and lays out
-     * all labels, fields, and buttons.
+    /**
+     * Constructs the MiniGUI dialog and displays it modally.
+     * The dialog blocks the main application until closed.
      */
+
     public MiniGUI() {
 
         setTitle("Zombie Simulation Setup");
@@ -108,12 +89,62 @@ public class MiniGUI extends JDialog {
         submitButton.addActionListener(e -> validateAndSubmit());
         JButton loadButton = new JButton("Load Map File");
         loadButton.addActionListener(e -> chooseMapFile());
+        JButton loadConfigButton = new JButton("Load Config");
+        JButton saveButton = new JButton("Save Config");
+        loadConfigButton.addActionListener(e -> {
+            try {
+                JFileChooser chooser = new JFileChooser();
+                int result = chooser.showOpenDialog(this);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File file = chooser.getSelectedFile();
+                    Scanner scanner = new Scanner(file);
+
+                    sizeField.setText("" + scanner.nextInt());
+                    civilianField.setText("" + scanner.nextInt());
+                    zombieField.setText("" + scanner.nextInt());
+                    soldierField.setText("" + scanner.nextInt());
+                    generalField.setText("" + scanner.nextInt());
+
+                    scanner.close();
+                }
+
+            } catch (Exception ex) {
+                showError("Could not load config.");
+            }
+        });
+
+        saveButton.addActionListener(e -> {
+            try {
+                List<Integer> temp = new ArrayList<>();
+                temp.add(Integer.parseInt(sizeField.getText()));
+                temp.add(Integer.parseInt(civilianField.getText()));
+                temp.add(Integer.parseInt(zombieField.getText()));
+                temp.add(Integer.parseInt(soldierField.getText()));
+                temp.add(Integer.parseInt(generalField.getText()));
+
+                saveConfig("config.txt", temp);
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Configuration saved successfully!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+            } catch (NumberFormatException ex) {
+                showError("Invalid input. Cannot save.");
+            }
+        });
+
 
         // Assemble layout
         mainPanel.add(inputPanel, BorderLayout.CENTER);
-        JPanel buttonPanel = new JPanel(new GridLayout(1,2,10,10));
+        JPanel buttonPanel = new JPanel(new GridLayout(2,2,10,10));
         buttonPanel.add(submitButton);
         buttonPanel.add(loadButton);
+        buttonPanel.add(saveButton);
+        buttonPanel.add(loadConfigButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -238,6 +269,18 @@ public class MiniGUI extends JDialog {
                 "Invalid Input",
                 JOptionPane.ERROR_MESSAGE
         );
+    }
+
+    public void saveConfig(String filename, List<Integer> values) {
+        try {
+            PrintWriter out = new PrintWriter(filename);
+            for (int v : values) {
+                out.println(v);
+            }
+            out.close();
+        } catch (Exception e) {
+            showError("Failed to save file.");
+        }
     }
 
     /*
