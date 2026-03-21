@@ -171,6 +171,12 @@ public class MiniGUI extends JDialog {
             }
         });
 
+        speedSlider.setMajorTickSpacing(250);
+        speedSlider.setMinorTickSpacing(50);
+        speedSlider.setPaintTicks(true);
+        speedSlider.setSnapToTicks(true);
+        speedSlider.addChangeListener(e -> {speedLabel.setText("Speed: " + speedSlider.getValue() + " ms");
+        });
 
         // Assemble layout
         mainPanel.add(inputPanel, BorderLayout.CENTER);
@@ -181,6 +187,7 @@ public class MiniGUI extends JDialog {
         buttonPanel.add(loadConfigButton);
         buttonPanel.add(resetButton);
 
+        mainPanel.add(speedSlider, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
@@ -258,6 +265,7 @@ public class MiniGUI extends JDialog {
             values.add(zombies);
             values.add(soldiers);
             values.add(generals);
+            values.add(speedSlider.getValue());
 
             /*
              * Close dialog.
@@ -334,5 +342,8 @@ public class MiniGUI extends JDialog {
      */
     public List<Integer> getValues() {
         return values;
+    }
+    public int getSpeed() {
+        return speedSlider.getValue();
     }
 }
