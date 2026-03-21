@@ -45,13 +45,18 @@ public class Entity {
     // base movement for any entity by wandering
     public Direction baseMove(SimModel model){
         // 1/3 chance to stay still - no movement
-        if(rand.nextInt(3)==0) return Direction.STAY;
+        if (rand.nextInt(3) == 0) {
+            return Direction.STAY;
+        }
+
         steps++;
-        // change direction after 3 steps
-        if (steps >= 3) {
-            direction = randomDirection();
+
+        // change direction after 3 steps OR if blocked
+        if (steps >= 3 || !model.canMove(this, direction)) {
+            direction = model.randomOpenDirection(this);
             steps = 0;
         }
+
         return direction;
     }
 
@@ -63,7 +68,7 @@ public class Entity {
             return baseMove(model);
         }
 
-        return chaseTo(nearest.getLocation(),getLocation());
+        return chaseTo(nearest.getLocation(), getLocation(), model);
     }
 
     public Direction soldierMove(SimModel model) {
@@ -73,7 +78,7 @@ public class Entity {
             return baseMove(model);
         }
 
-        return chaseTo(nearest.getLocation(),getLocation());
+        return chaseTo(nearest.getLocation(), getLocation(), model);
     }
 
     public Direction generalMove(SimModel model) {
@@ -83,7 +88,7 @@ public class Entity {
             return baseMove(model);
         }
 
-        return chaseTo(nearest.getLocation(),getLocation());
+        return chaseTo(nearest.getLocation(), getLocation(), model);
     }
 
     //------------------Interactions for Unit types assigned to Entity--------------------------
@@ -177,27 +182,37 @@ public class Entity {
 
     //----------------------------Chaser Helpers--------------------------
 
-    public Direction chaseTo(Point to, Point from) {
+    public Direction chaseTo(Point to, Point from, SimModel model) {
         int dx = Integer.compare(to.x, from.x);
         int dy = Integer.compare(to.y, from.y);
+
+        Direction first;
+        Direction second;
 
         int xDiff = Math.abs(to.x - from.x);
         int yDiff = Math.abs(to.y - from.y);
 
-        if (xDiff > yDiff) {
-            if (dx == 1) {
-                return Direction.EAST;
-            } else if (dx == -1) {
-                return Direction.WEST;
-            }
-        } else if (yDiff > xDiff) {
-            if (dy == 1) {
-                return Direction.NORTH;
-            } else {
-                return Direction.SOUTH;
-            }
+        if (xDiff >= yDiff) {
+            first = (dx > 0) ? Direction.EAST : Direction.WEST;
+            second = (dy > 0) ? Direction.NORTH : Direction.SOUTH;
+        } else {
+            first = (dy > 0) ? Direction.NORTH : Direction.SOUTH;
+            second = (dx > 0) ? Direction.EAST : Direction.WEST;
         }
-        return randomDirection();
+
+        if (to.equals(from)) {
+            return Direction.STAY;
+        }
+
+        if (model.canMove(this, first)) {
+            return first;
+        }
+
+        if (model.canMove(this, second)) {
+            return second;
+        }
+
+        return model.randomOpenDirection(this);
     }
 
     // gives distance between this and other unit

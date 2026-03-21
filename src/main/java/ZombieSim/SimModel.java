@@ -325,19 +325,59 @@ public class SimModel {
         return "";
     }
 
-    //  Checker for when unit is in water tile
+    //-----------------------------Movement checkers and helpers----------------------------
 
+    //  Checker for when unit is in water tile
     public boolean isWater(Point p) {
         return map.getTile(p) instanceof WaterTile;
     }
-    //  Drowns zombie when they enter water
 
+    //  Drowns zombie when they enter water
     private void applyWaterEffects() {
         for (Entity unit : new ArrayList<>(entities)) {
             if (unit.getType() == Unit.ZOMBIE && isWater(unit.getLocation())) {
                 removeEntity(unit);
             }
         }
+    }
+
+    // checks whether a unit can move one step in a direction
+    public boolean canMove(Entity unit, Direction direction) {
+        if (unit == null || direction == null || direction == Direction.STAY) {
+            return false;
+        }
+
+        Point from = unit.getLocation();
+        Point to = new Point(
+                from.x + direction.dx(),
+                from.y + direction.dy()
+        );
+
+        if (map.outBounds(to)) {
+            return false;
+        }
+
+        MapTile tile = map.getTile(to);
+        return tile != null && tile.canEnter(unit) && map.isEmpty(to);
+    }
+
+    // returns a random valid direction, or STAY if none work
+    public Direction randomOpenDirection(Entity unit) {
+        Direction[] dirs = {
+                Direction.NORTH,
+                Direction.EAST,
+                Direction.SOUTH,
+                Direction.WEST
+        };
+
+        for (int i = 0; i < 10; i++) {
+            Direction d = dirs[rand.nextInt(dirs.length)];
+            if (canMove(unit, d)) {
+                return d;
+            }
+        }
+
+        return Direction.STAY;
     }
 
 }

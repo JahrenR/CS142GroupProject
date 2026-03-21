@@ -16,6 +16,6 @@ public class GrassTile extends MapTile {
 
     @Override
     public Color getColor() {
-        return new Color(75, 209, 75);
+        return new Color(55, 140, 55);
     }
 }

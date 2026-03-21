@@ -57,6 +57,7 @@ public class MapLoader {
                     case 'W' -> tile = new WallTile(p);
                     case 'C' -> tile = new SafeZoneTile(p);
                     case 'A' -> tile = new WaterTile(p);
+                    case 'D' -> tile = new DeepWaterTile(p);
                     case '.' -> tile = new GrassTile(p);
 
                     // entities placed on grass
