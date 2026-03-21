@@ -34,6 +34,9 @@ public class MiniGUI extends JDialog {
     private JTextField soldierField = new JTextField("2");
     private JTextField generalField = new JTextField("1");
 
+    /*Slider that controls simulation speed and displays
+    speed value next to slider */
+
     private JSlider speedSlider = new JSlider(50, 1000, 500);
     private JLabel speedLabel = new JLabel("Speed: 500 ms");
 
@@ -171,10 +174,11 @@ public class MiniGUI extends JDialog {
             }
         });
 
-        speedSlider.setMajorTickSpacing(250);
-        speedSlider.setMinorTickSpacing(50);
-        speedSlider.setPaintTicks(true);
-        speedSlider.setSnapToTicks(true);
+        //Config of the slider's looks and behavior
+        speedSlider.setMajorTickSpacing(250); //big tick marks every 250 ms
+        speedSlider.setMinorTickSpacing(50); // small tick marks every 50 ms
+        speedSlider.setPaintTicks(true); // show tick marks visually
+        speedSlider.setSnapToTicks(true); // show numeric labels under slider
         speedSlider.addChangeListener(e -> {speedLabel.setText("Speed: " + speedSlider.getValue() + " ms");
         });
 
@@ -266,6 +270,7 @@ public class MiniGUI extends JDialog {
             values.add(soldiers);
             values.add(generals);
             values.add(speedSlider.getValue());
+            //add speed value so main simulation can use it
 
             /*
              * Close dialog.
