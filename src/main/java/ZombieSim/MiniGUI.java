@@ -36,6 +36,8 @@ public class MiniGUI extends JDialog {
     private String mapFile = null;
     private List<Integer> values = null;
 
+    private JLabel mapFileLabel = new JLabel("No map file selected");
+
     /**
      * Constructs the MiniGUI dialog and displays it modally.
      * The dialog blocks the main application until closed.
@@ -63,7 +65,7 @@ public class MiniGUI extends JDialog {
          * GridLayout organizes labels and text fields
          * into a clean 2-column structure.
          */
-        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 10, 10));
 
         // Label and text field pairs
         inputPanel.add(new JLabel("Map Size:"));
@@ -81,6 +83,9 @@ public class MiniGUI extends JDialog {
         inputPanel.add(new JLabel("Generals:"));
         inputPanel.add(generalField);
 
+        inputPanel.add(new JLabel("Map file:"));
+        inputPanel.add(mapFileLabel);
+
         /*
          * Submit button starts validation process.
          */
@@ -91,6 +96,16 @@ public class MiniGUI extends JDialog {
         loadButton.addActionListener(e -> chooseMapFile());
         JButton loadConfigButton = new JButton("Load Config");
         JButton saveButton = new JButton("Save Config");
+
+        JButton resetButton = new JButton("Reset Defaults");
+        resetButton.addActionListener(e -> resetDefaults());
+
+        sizeField.addActionListener(e -> validateAndSubmit());
+        civilianField.addActionListener(e -> validateAndSubmit());
+        zombieField.addActionListener(e -> validateAndSubmit());
+        soldierField.addActionListener(e -> validateAndSubmit());
+        generalField.addActionListener(e -> validateAndSubmit());
+
         loadConfigButton.addActionListener(e -> {
             try {
                 JFileChooser chooser = new JFileChooser();
@@ -123,7 +138,16 @@ public class MiniGUI extends JDialog {
                 temp.add(Integer.parseInt(soldierField.getText()));
                 temp.add(Integer.parseInt(generalField.getText()));
 
-                saveConfig("config.txt", temp);
+
+                JFileChooser chooser = new JFileChooser();
+                chooser.setSelectedFile(new File("config.txt"));
+                int result = chooser.showSaveDialog(this);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File file = chooser.getSelectedFile();
+                    saveConfig(file.getAbsolutePath(), temp);
+
+                    JOptionPane.showMessageDialog(this, "Config saved successfully.)", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
 
                 JOptionPane.showMessageDialog(
                         this,
@@ -140,11 +164,12 @@ public class MiniGUI extends JDialog {
 
         // Assemble layout
         mainPanel.add(inputPanel, BorderLayout.CENTER);
-        JPanel buttonPanel = new JPanel(new GridLayout(2,2,10,10));
+        JPanel buttonPanel = new JPanel(new GridLayout(3,2,10,10));
         buttonPanel.add(submitButton);
         buttonPanel.add(loadButton);
         buttonPanel.add(saveButton);
         buttonPanel.add(loadConfigButton);
+        buttonPanel.add(resetButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -254,10 +279,12 @@ public class MiniGUI extends JDialog {
             File selectedFile = chooser.getSelectedFile();
 
             mapFile = selectedFile.getAbsolutePath();
+            mapFileLabel.setText(selectedFile.getName());
 
-            dispose(); // close the setup window
         }
     }
+
+
 
     /*
      * Displays a pop-up error message.
