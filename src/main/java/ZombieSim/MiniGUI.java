@@ -26,12 +26,17 @@ import java.util.Scanner;
 
 public class MiniGUI extends JDialog {
 
+    //Input fields for user configuration (default values provided) //
 
     private JTextField sizeField = new JTextField("30");
     private JTextField civilianField = new JTextField("20");
     private JTextField zombieField = new JTextField("2");
     private JTextField soldierField = new JTextField("2");
     private JTextField generalField = new JTextField("1");
+
+
+    //Stores selected map file path (if user chooses one)
+    //Stores validates values to pass back to main simulation
 
     private String mapFile = null;
     private List<Integer> values = null;
