@@ -67,7 +67,7 @@ public class MiniGUI extends JDialog {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 
         /*
-         * GridLayout organizes labels and text fields
+         * GridLayout arranges labels and text fields
          * into a clean 2-column structure.
          */
         JPanel inputPanel = new JPanel(new GridLayout(6, 2, 10, 10));
