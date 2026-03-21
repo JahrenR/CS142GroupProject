@@ -1,8 +1,5 @@
 # Final Destination Group Project
 
-Main Contributors:
-Jahren Ramborger, Myroon Galil
-
 ## Overview
 This project is a grid-based zombie simulation written in Java.  
 The simulation models interactions between humans, zombies, soldiers, and generals on a tile-based map.
