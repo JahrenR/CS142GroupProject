@@ -34,6 +34,8 @@ public class MiniGUI extends JDialog {
     private JTextField soldierField = new JTextField("2");
     private JTextField generalField = new JTextField("1");
 
+    private JSlider speedSlider = new JSlider(50, 1000, 500);
+    private JLabel speedLabel = new JLabel("Speed: 500 ms");
 
     //Stores selected map file path (if user chooses one)
     //Stores validates values to pass back to main simulation
@@ -87,6 +89,9 @@ public class MiniGUI extends JDialog {
 
         inputPanel.add(new JLabel("Generals:"));
         inputPanel.add(generalField);
+
+        inputPanel.add(new JLabel("Speed:"));
+        inputPanel.add(speedSlider);
 
         inputPanel.add(new JLabel("Map file:"));
         inputPanel.add(mapFileLabel);
