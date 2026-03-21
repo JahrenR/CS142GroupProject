@@ -284,7 +284,15 @@ public class MiniGUI extends JDialog {
         }
     }
 
-
+    private void resetDefaults() {
+        sizeField.setText("0");
+        civilianField.setText("0");
+        zombieField.setText("0");
+        soldierField.setText("0");
+        generalField.setText("0");
+        mapFile = null;
+        mapFileLabel.setText("No map file selected");
+    }
 
     /*
      * Displays a pop-up error message.
