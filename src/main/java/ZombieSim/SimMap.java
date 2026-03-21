@@ -13,35 +13,6 @@ public class SimMap {
     private final int size; // class fields that store map w/h and 2D array - grid storage
     MapTile[][] simMap;
 
-    /*-------------------------MapTile Class---------------------------
-     *            Helper Class to handle map tile
-     *            Allowing unit to occupy it
-     *             If no units, it will be null
-     *             Represents one square on grid, can't hold more than 1 e.
-     */
-
-    /*
-    public static class MapTile {
-        private final Point p; // tile coordinate
-        Entity tileUnit; // entity currently on the tile
-
-        MapTile(Point p) {
-            this.p = new Point(p);
-            tileUnit = null;  // copies point so it can't be modified on outside
-        }                     // starts empty
-
-        public Entity getEntity() {
-            return tileUnit;
-        }
-        public void setEntity(Entity tileUnit) {
-            this.tileUnit = tileUnit; // place/remove entity
-        }
-        public int getX() {return p.x;}
-        public int getY() {return p.y;}
-        public Point getPoint() {return new Point(p);}
-
-    }
-
     /*-------------------------Construct---------------------------
      *         creates square 2d array of map Tiles
      */
@@ -74,8 +45,6 @@ public class SimMap {
         unit.setPosition(new Point(p)); // update entity internal position
         // map and entity need to agree on where the entity is.
     }
-
-
 
     /*-------------------------Move Entity---------------------------
      *          This moves the entity with given direction

@@ -35,10 +35,29 @@ public class SimModel {
         }
     }
 
+    public SimModel(String filename) {
+
+        entities = new ArrayList<>();
+
+        MapTile[][] loadedMap = MapLoader.loadMap(filename, entities);
+
+        int size = loadedMap.length;
+
+        map = new SimMap(size);
+
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+
+                MapTile tile = loadedMap[r][c];
+                map.simMap[r][c] = tile;
+
+            }
+        }
+    }
+
     /*----------------------------------Update----------------------------------
      *           It loops through units of map, moving them in turns
-     *      could be improved if we check intents and collisions beforehand
-     *           currently its just moving each unit randomly
+     *        then check each units' interactions as well environment effects
      */
 
     public void update() {
@@ -66,12 +85,10 @@ public class SimModel {
         }
     }
 
-
     public void removeEntity(Entity unit) {
         map.remove(unit);       // remove from map
         entities.remove(unit);  // remove from entity list
     }
-
 
     /*-------------------------Entities Spawn Methods----------------------------
      *      With amount it will spawns amount of entities randomly
@@ -177,13 +194,19 @@ public class SimModel {
 
     public SimMap getMap() {return map;}
     public List<Entity> getEntities() {return entities;}
-
-    //--------------------get unit with metadata for gui---------------------
+    public int getTicks() {return ticks;}
+    //--------------------get unit and tile with metadata for gui---------------------
 
     public Entity getUnit(int c, int r) {
         int x = c + 1;
         int y = map.size() - r;
         return map.getUnit(new Point(x, y));
+    }
+
+    public MapTile getTile(int c, int r) {
+        int x = c + 1;
+        int y = map.size() - r;
+        return map.getTile(new Point(x, y));
     }
 
     //--------------------Find Nearest entity helper---------------------
@@ -196,7 +219,7 @@ public class SimModel {
 
             for (Unit target : targets) {
                 if (e.getType() == target) {
-                    int dist = current.manhattan(current.getLocation(), e.getLocation());
+                    int dist = current.distance(current.getLocation(), e.getLocation());
                     if (dist < best) {
                         best = dist;
                         nearest = e;
@@ -231,9 +254,6 @@ public class SimModel {
 
         return null;
     }
-
-
-
 
     // - Entities Counters -
 
@@ -276,38 +296,9 @@ public class SimModel {
         }
         return count;
     }
-    public MapTile getTile(int c, int r) {
-        int x = c + 1;
-        int y = map.size() - r;
-        return map.getTile(new Point(x, y));
-    }
-
-    public SimModel(String filename) {
-
-        entities = new ArrayList<>();
-
-        MapTile[][] loadedMap = MapLoader.loadMap(filename, entities);
-
-        int size = loadedMap.length;
-
-        map = new SimMap(size);
-
-        for (int r = 0; r < size; r++) {
-            for (int c = 0; c < size; c++) {
-
-                MapTile tile = loadedMap[r][c];
-                map.simMap[r][c] = tile;
-
-            }
-        }
-    }
 
 
     //---------------------Game End Condition Helpers---------------------
-
-
-
-    public int getTicks() {return ticks;}
 
     public boolean isGameOver() {
         return zombiesEliminated() || allSurvivorsInfected();
@@ -334,9 +325,12 @@ public class SimModel {
         return "";
     }
 
+    //  Checker for when unit is in water tile
+
     public boolean isWater(Point p) {
         return map.getTile(p) instanceof WaterTile;
     }
+    //  Drowns zombie when they enter water
 
     private void applyWaterEffects() {
         for (Entity unit : new ArrayList<>(entities)) {
@@ -345,6 +339,5 @@ public class SimModel {
             }
         }
     }
-
 
 }

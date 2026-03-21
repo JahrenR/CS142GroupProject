@@ -1,6 +1,6 @@
 package ZombieSim;
 
-//Constants for Direction
+//Constants for Direction to be utilized for unit movement
 
 public enum Direction {
     NORTH(0, 1),

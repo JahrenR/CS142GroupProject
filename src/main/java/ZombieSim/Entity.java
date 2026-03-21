@@ -9,10 +9,21 @@ public class Entity {
     private int steps = 0;
     private Direction direction;
 
+    /*------------------------------------Entity Constructor------------------------------------
+     *          We originally had this being abstract class with instances of units
+     *          Then we considered due to conversion going on between entities proved
+     *          it to be much more effective to utilize constant types and behaviors
+     *          within single class so the model runs much more efficiently changing
+     *          entities types for conversions instead of creating and removing many
+     *          entities instances.
+     */
+
     public Entity(Unit type) {
         this.type = type;
         direction = randomDirection();
-    };
+    }
+
+    //----------------------------------The Move Behaviors-------------------------------------
 
     public Direction getMove(SimModel model) {
         // humans move at half speed in water
@@ -22,6 +33,7 @@ public class Entity {
             }
         }
 
+        //Moves each unit based on their types
         return switch (type) {
             case HUMAN -> baseMove(model);
             case ZOMBIE -> zombieMove(model);
@@ -30,6 +42,7 @@ public class Entity {
         };
     }
 
+    // base movement for any entity by wandering
     public Direction baseMove(SimModel model){
         // 1/3 chance to stay still - no movement
         if(rand.nextInt(3)==0) return Direction.STAY;
@@ -41,23 +54,40 @@ public class Entity {
         }
         return direction;
     }
+
     public Direction zombieMove(SimModel model) {
-        Entity nearest = model.findNearest(this, Unit.HUMAN, Unit.SOLDIER,  Unit.GENERAL);
-        if (nearest == null) {return baseMove(model);}
-        return chaseTo(nearest.getLocation(),getLocation());
-    }
-    public Direction soldierMove(SimModel model) {
-        Entity nearest = model.findNearest(this, Unit.ZOMBIE);
-        if (nearest == null) {return baseMove(model);}
-        return chaseTo(nearest.getLocation(),getLocation());
-    }
-    public Direction generalMove(SimModel model) {
-        Entity nearest = model.findNearest(this, Unit.HUMAN);
-        if (nearest == null) {return baseMove(model);}
+        Entity nearest = model.findNearest(this,
+                Unit.HUMAN, Unit.SOLDIER, Unit.GENERAL);
+
+        if (nearest == null) {
+            return baseMove(model);
+        }
+
         return chaseTo(nearest.getLocation(),getLocation());
     }
 
-    // for the different interactions
+    public Direction soldierMove(SimModel model) {
+        Entity nearest = model.findNearest(this, Unit.ZOMBIE);
+
+        if (nearest == null) {
+            return baseMove(model);
+        }
+
+        return chaseTo(nearest.getLocation(),getLocation());
+    }
+
+    public Direction generalMove(SimModel model) {
+        Entity nearest = model.findNearest(this, Unit.HUMAN);
+
+        if (nearest == null) {
+            return baseMove(model);
+        }
+
+        return chaseTo(nearest.getLocation(),getLocation());
+    }
+
+    //------------------Interactions for Unit types assigned to Entity--------------------------
+
     public void interact(SimModel model) {
         switch (type) {
             case HUMAN -> {}
@@ -65,32 +95,43 @@ public class Entity {
             case SOLDIER -> soldierInteract(model);
             case GENERAL -> generalInteract(model);
         }
-    };
+    }
 
+    // Bites humans and turns them into zombie
 
     private void zombieInteract(SimModel model) {
+
         Entity target = model.seekNeighbor(this, Unit.HUMAN);
 
         if (target != null) {
             target.setType(Unit.ZOMBIE);
         }
     }
+
+    // Recruits humans to become into soldiers,
+    // as well fights zombie if they meet, with 90% chance of winning
+
     private void generalInteract(SimModel model) {
+
         Entity human = model.seekNeighbor(this, Unit.HUMAN);
+
         if (human != null) {
             human.setType(Unit.SOLDIER);
             return;
         }
 
         Entity zombie = model.seekNeighbor(this, Unit.ZOMBIE);
-        if (zombie != null) {
-            if (rand.nextBoolean()) {
-                model.removeEntity(zombie);
-            } else {
-                this.setType(Unit.ZOMBIE);
-            }
+        if (zombie == null) return;
+
+        if (rand.nextInt(100) < 90) {
+            model.removeEntity(zombie);
+        } else {
+            this.setType(Unit.ZOMBIE);
         }
     }
+
+    // Kills zombies with 70% chance, turns into zombie if fail
+
     private void soldierInteract(SimModel model) {
         while (true) {
             Entity target = model.seekNeighbor(this, Unit.ZOMBIE);
@@ -105,9 +146,6 @@ public class Entity {
         }
     }
 
-
-
-
     //It returns random direction with stay being 1/3 chance, given by Human
 
     Random rand = new Random();
@@ -121,6 +159,7 @@ public class Entity {
 
         return direction[rand.nextInt(direction.length)];
     }
+
     //------------setters----------------------
 
     public void setPosition(Point p) {
@@ -161,12 +200,9 @@ public class Entity {
         return randomDirection();
     }
 
-    // the manhattan math that helps determine which closest unit
-    public int manhattan(Point a, Point b) {
+    // gives distance between this and other unit
+    public int distance(Point a, Point b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
 
 }
-// the entity class is the base for all the entities in the project
-// every entity has stored a point, unit type, and if the entity is alive or not
-// every entity uses methods to move and to interacts with other entities
