@@ -9,7 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * MapLoader reads a map file and converts it to a 2D array of MapTile objects.
+ *
+ * It also creates entities found in the file (humans, zombies, soldiers,
+ * generals) and adds them to the provided entities list.
+ */
 public class MapLoader {
+
+    /**
+     *
+     * @param filename the map file to load
+     * @param entities a list that will be filled with entities created from the map
+     *
+     * @return a 2D array of MapTile objects representing the map
+     */
 
     public static MapTile[][] loadMap(String filename, List<Entity> entities) {
         List<String> lines = new ArrayList<>();
@@ -23,6 +37,8 @@ public class MapLoader {
                     lines.add(line);
                 }
             }
+
+            //If file cannot be found, stop and report the error
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not load map file: " + filename);
         }
@@ -40,6 +56,7 @@ public class MapLoader {
             }
         }
 
+        //Create the 2D map array
         MapTile[][] map = new MapTile[rows][cols];
 
         for (int r = 0; r < rows; r++) {
@@ -82,7 +99,7 @@ public class MapLoader {
                             "Invalid map symbol '" + symbol + "' at row " + r + ", col " + c
                     );
                 }
-
+                //Store tile in map array
                 map[r][c] = tile;
 
                 if (entity != null) {
